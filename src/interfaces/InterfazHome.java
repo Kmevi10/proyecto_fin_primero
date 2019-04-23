@@ -12,15 +12,15 @@ public class InterfazHome extends JFrame {
 
 	private JPanel contentPane;
 
-	public InterfazHome() {
+	public InterfazHome(String username) {
 
-		String username = null;
+		
 		String is;
 		Conectar c = new Conectar();
 		c.Conectar();
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 619, 357);
+		setBounds(100, 100, 618, 401);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -42,7 +42,7 @@ public class InterfazHome extends JFrame {
 		btnNewButton.setFont(new Font("Monospaced", Font.BOLD, 12));
 		btnNewButton.setBackground(Color.LIGHT_GRAY);
 		btnNewButton.setForeground(Color.BLACK);
-		btnNewButton.setBounds(35, 180, 236, 93);
+		btnNewButton.setBounds(35, 193, 236, 93);
 		panel.add(btnNewButton);
 
 		JButton btnRegistrarte = new JButton("Borrar Batalla");
@@ -56,7 +56,7 @@ public class InterfazHome extends JFrame {
 		btnRegistrarte.setFont(new Font("Monospaced", Font.BOLD, 12));
 		btnRegistrarte.setBackground(Color.LIGHT_GRAY);
 		btnRegistrarte.setForeground(Color.BLACK);
-		btnRegistrarte.setBounds(318, 180, 236, 93);
+		btnRegistrarte.setBounds(318, 193, 236, 93);
 		panel.add(btnRegistrarte);
 
 		JButton btnVisualizarBatallas = new JButton("Visualizar Batallas");
@@ -73,7 +73,7 @@ public class InterfazHome extends JFrame {
 		btnVisualizarBatallas.setForeground(Color.BLACK);
 		btnVisualizarBatallas.setFont(new Font("Monospaced", Font.BOLD, 12));
 		btnVisualizarBatallas.setBackground(Color.LIGHT_GRAY);
-		btnVisualizarBatallas.setBounds(35, 72, 236, 93);
+		btnVisualizarBatallas.setBounds(35, 73, 236, 93);
 		panel.add(btnVisualizarBatallas);
 
 		JButton btnPredicciones = new JButton("Predicciones");
@@ -84,7 +84,7 @@ public class InterfazHome extends JFrame {
 		btnPredicciones.setForeground(Color.BLACK);
 		btnPredicciones.setFont(new Font("Monospaced", Font.BOLD, 12));
 		btnPredicciones.setBackground(Color.LIGHT_GRAY);
-		btnPredicciones.setBounds(318, 72, 236, 93);
+		btnPredicciones.setBounds(318, 73, 236, 93);
 		panel.add(btnPredicciones);
 
 		JTextArea textArea = new JTextArea();
@@ -93,7 +93,7 @@ public class InterfazHome extends JFrame {
 		textArea.setFont(new Font("Segoe Print", Font.BOLD, 23));
 		textArea.setEditable(false);
 		textArea.setBackground(new Color(220, 220, 220));
-		textArea.setBounds(240, 11, 114, 45);
+		textArea.setBounds(239, 11, 114, 45);
 		panel.add(textArea);
 
 		if (username != null) {
@@ -124,7 +124,31 @@ public class InterfazHome extends JFrame {
 				}
 			}
 		});
-		btnSi.setBounds(429, 11, 154, 23);
+		
+		JButton button = new JButton("Cerrar sesión");
+		button.setVisible(false);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InterfazHome h = new InterfazHome(null);
+				h.setVisible(true);
+				dispose();
+			}
+		});
+		button.setFont(new Font("Monospaced", Font.BOLD, 11));
+		button.setBackground(Color.LIGHT_GRAY);
+		button.setBounds(220, 304, 154, 23);
+		panel.add(button);
+		
+		btnSi.setBounds(399, 27, 154, 23);
 		panel.add(btnSi);
+		
+		if (username != null) {
+			
+			button.setVisible(true);
+			btnNewButton.enable();
+			btnRegistrarte.enable();
+			
+		}
+		
 	}
 }

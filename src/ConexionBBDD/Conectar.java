@@ -21,7 +21,6 @@ public class Conectar {
 	    	try {
 	           Class.forName(driver) ;
 	           conexion = DriverManager.getConnection(url, user, pass);
-	           System.out.println("Base de datos clientes.fdb situada en :\n "+url);
 	           consulta = conexion.createStatement();
 	        }catch(Exception e){
 	            JOptionPane.showMessageDialog(null, e.getMessage());
@@ -45,10 +44,9 @@ public class Conectar {
 	    public static void EjecutarUpdate(String Sentencia) throws SQLException{
 	    	try{
 	    		consulta.executeUpdate(Sentencia);
-	    		System.out.println("Done.");
 	    	}catch(SQLException e){
-	    		
-	    		throw new SQLException("");
+	    		e.printStackTrace();
+ 
 	    	} 
 	    }
 	    
