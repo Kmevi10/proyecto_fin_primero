@@ -107,14 +107,49 @@ public class InterfazRegister extends JFrame {
 		panel.add(btnNewButton);
 		
 		JTextArea txtrUsuarioNoDisponible = new JTextArea();
+		txtrUsuarioNoDisponible.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				JOptionPane.showMessageDialog(null,
+						"El usuario no puede estar ya registrado y debe tener:\nUna longitud mínima de 6 caracteres.\nAl menos una mayúscula.\nAl menos una minúscula.\nAl menos un número.",
+						"Usuario no compatible", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		txtrUsuarioNoDisponible.setText("Usuario no disponible.");
+		txtrUsuarioNoDisponible.setForeground(new Color(255, 0, 0));
+		txtrUsuarioNoDisponible.setFont(new Font("Miriam Mono CLM", Font.BOLD, 10));
+		txtrUsuarioNoDisponible.setEditable(false);
+		txtrUsuarioNoDisponible.setBackground(new Color(220, 220, 220));
+		txtrUsuarioNoDisponible.setBounds(217, 66, 197, 22);
+		txtrUsuarioNoDisponible.setVisible(false);
+		panel.add(txtrUsuarioNoDisponible);
+		
 		JTextArea txtrMailNoValido = new JTextArea();
+		txtrMailNoValido.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				JOptionPane.showMessageDialog(null,
+						"El e-mail debe contener caracteres, un @, más caracteres, un '.' y una extensión.",
+						"Correo no compatible", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		txtrMailNoValido.setText("Mail no valido.");
+		txtrMailNoValido.setForeground(Color.RED);
+		txtrMailNoValido.setFont(new Font("Miriam Mono CLM", Font.BOLD, 10));
+		txtrMailNoValido.setEditable(false);
+		txtrMailNoValido.setBackground(new Color(220, 220, 220));
+		txtrMailNoValido.setBounds(329, 99, 85, 22);
+		txtrMailNoValido.setVisible(false);
+		panel.add(txtrMailNoValido);
+		
 		JTextArea txtrLasClavesNo = new JTextArea();
 		JTextArea txtrLasClavesNo_1 = new JTextArea();
 
 		JButton btnRegistrarte = new JButton("Registrarte");
 		btnRegistrarte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Arriba");
 				if (Funciones.requisitosUser(textField.getText()) && Funciones.requisitosMail(textField_1.getText())
 						&& Funciones.requisitosClave(passwordField.getText())
 						&& passwordField.getText() == passwordField_2.getText()) {
@@ -126,43 +161,13 @@ public class InterfazRegister extends JFrame {
 
 					if (!Funciones.requisitosUser(textField.getText())) {
 
-						txtrUsuarioNoDisponible.addMouseListener(new MouseAdapter() {
-							@Override
-							public void mouseClicked(MouseEvent e) {
-
-								JOptionPane.showMessageDialog(null,
-										"El usuario no puede estar ya registrado y debe tener:\nUna longitud mínima de 6 caracteres.\nAl menos una mayúscula.\nAl menos una minúscula.\nAl menos un número.",
-										"Usuario no compatible", JOptionPane.INFORMATION_MESSAGE);
-							}
-						});
-						txtrUsuarioNoDisponible.setText("Usuario no disponible.");
-						txtrUsuarioNoDisponible.setForeground(new Color(255, 0, 0));
-						txtrUsuarioNoDisponible.setFont(new Font("Miriam Mono CLM", Font.BOLD, 10));
-						txtrUsuarioNoDisponible.setEditable(false);
-						txtrUsuarioNoDisponible.setBackground(new Color(220, 220, 220));
-						txtrUsuarioNoDisponible.setBounds(217, 66, 197, 22);
-						panel.add(txtrUsuarioNoDisponible);
+						txtrUsuarioNoDisponible.setVisible(true);
 
 					}
 
 					if (!Funciones.requisitosMail(textField_1.getText())) {
 
-						txtrMailNoValido.addMouseListener(new MouseAdapter() {
-							@Override
-							public void mouseClicked(MouseEvent e) {
-
-								JOptionPane.showMessageDialog(null,
-										"El e-mail debe contener caracteres, un @, más caracteres, un '.' y una extensión.",
-										"Correo no compatible", JOptionPane.INFORMATION_MESSAGE);
-							}
-						});
-						txtrMailNoValido.setText("Mail no valido.");
-						txtrMailNoValido.setForeground(Color.RED);
-						txtrMailNoValido.setFont(new Font("Miriam Mono CLM", Font.BOLD, 10));
-						txtrMailNoValido.setEditable(false);
-						txtrMailNoValido.setBackground(new Color(220, 220, 220));
-						txtrMailNoValido.setBounds(329, 99, 85, 22);
-						panel.add(txtrMailNoValido);
+						txtrMailNoValido.setVisible(true);
 
 					}
 

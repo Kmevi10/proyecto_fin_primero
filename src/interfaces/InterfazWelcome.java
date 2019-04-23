@@ -19,6 +19,7 @@ public class InterfazWelcome extends JFrame {
 	private JPanel contentPane;
 
 	public InterfazWelcome() {
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -53,7 +54,7 @@ public class InterfazWelcome extends JFrame {
 		btnRegistrarte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				InterfazHome h = new InterfazHome();
+				InterfazHome h = new InterfazHome(null);
 				h.setVisible(true);
 			}
 		});
