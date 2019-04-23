@@ -21,7 +21,6 @@ public class Conectar {
 	    	try {
 	           Class.forName(driver) ;
 	           conexion = DriverManager.getConnection(url, user, pass);
-	           System.out.println("Base de datos clientes.fdb situada en :\n "+url);
 	           consulta = conexion.createStatement();
 	        }catch(Exception e){
 	            JOptionPane.showMessageDialog(null, e.getMessage());
