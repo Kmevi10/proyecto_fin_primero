@@ -3,6 +3,8 @@ package interfaces;
 import javax.swing.ImageIcon;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -77,17 +79,13 @@ public class InterfazRecuperarCuenta extends JFrame {
 		JButton btnRegistrarte = new JButton("Notificar");
 		btnRegistrarte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*
-				 * JOptionPane.showMessageDialog(null,
-				 * "Para el correo introducido se pondrá la siguiente contrase\u00f1a: " +
-				 * Funciones.generaContraseña(), "Recuperar Contrase\u00f1a",
-				 * JOptionPane.PLAIN_MESSAGE);
-				 */
-				ImageIcon icon = new ImageIcon("src/Imagenes/key.png");
-				JOptionPane.showConfirmDialog(null,
-						"Para el correo introducido se pondrá la siguiente contrase\u00f1a: "
-								+ Funciones.generaContraseña(),
-						"Contraseña recuperada", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+				try {
+					if (Funciones.recuperarCuentaValida(textField.getText())) {
+						InterfazLogin l = new InterfazLogin();
+						l.setVisible(true);
+						dispose();
+					}
+				} catch (SQLException e1) {}
 			}
 		});
 		btnRegistrarte.setFont(new Font("Monospaced", Font.PLAIN, 11));

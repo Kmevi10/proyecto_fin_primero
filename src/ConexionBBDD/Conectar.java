@@ -44,10 +44,9 @@ public class Conectar {
 	    public static void EjecutarUpdate(String Sentencia) throws SQLException{
 	    	try{
 	    		consulta.executeUpdate(Sentencia);
-	    		System.out.println("Done.");
 	    	}catch(SQLException e){
-	    		
-	    		throw new SQLException("");
+	    		e.printStackTrace();
+ 
 	    	} 
 	    }
 	    
