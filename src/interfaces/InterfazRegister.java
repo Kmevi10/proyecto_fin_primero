@@ -9,20 +9,25 @@ import javax.swing.border.EmptyBorder;
 
 import ConexionBBDD.Conectar;
 import Funciones.Funciones;
-
+import Atxy2k.CustomTextField.RestrictedTextField;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import javax.swing.DropMode;
 
 public class InterfazRegister extends JFrame {
 
@@ -36,10 +41,11 @@ public class InterfazRegister extends JFrame {
 	 * Create the frame.
 	 */
 	public InterfazRegister() {
-		
+
+		ImageIcon icon = new ImageIcon("src/Imagenes/INFO.png");
 		Conectar c = new Conectar();
 		c.Conectar();
-		
+
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -71,6 +77,8 @@ public class InterfazRegister extends JFrame {
 		panel.add(txtrLogin);
 
 		textField = new JTextField();
+		RestrictedTextField r1 = new RestrictedTextField(textField, "abcdefghijklmnñopqrstuvwxyz1234567890");
+        r1.setLimit(10);
 		textField.setBounds(111, 63, 96, 20);
 		textField.setBackground(Color.LIGHT_GRAY);
 		textField.setForeground(Color.BLACK);
@@ -87,6 +95,8 @@ public class InterfazRegister extends JFrame {
 		panel.add(txtrContrasea);
 
 		passwordField = new JPasswordField();
+		RestrictedTextField r2 = new RestrictedTextField(passwordField, "abcdefghijklmnñopqrstuvwxyz1234567890");
+        r2.setLimit(10);
 		passwordField.setBounds(174, 129, 96, 20);
 		passwordField.setBackground(Color.LIGHT_GRAY);
 		passwordField.setEchoChar('*');
@@ -95,9 +105,9 @@ public class InterfazRegister extends JFrame {
 		JButton btnNewButton = new JButton("Cancelar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
 				InterfazLogin l = new InterfazLogin();
 				l.setVisible(true);
+				dispose();
 			}
 		});
 		btnNewButton.setBounds(34, 210, 156, 30);
@@ -105,15 +115,16 @@ public class InterfazRegister extends JFrame {
 		btnNewButton.setBackground(Color.LIGHT_GRAY);
 		btnNewButton.setForeground(Color.BLACK);
 		panel.add(btnNewButton);
-		
+
 		JTextArea txtrUsuarioNoDisponible = new JTextArea();
 		txtrUsuarioNoDisponible.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-				JOptionPane.showMessageDialog(null,
-						"El usuario no puede estar ya registrado y debe tener:\nUna longitud mínima de 6 caracteres.\nAl menos una mayúscula.\nAl menos una minúscula.\nAl menos un número.",
-						"Usuario no compatible", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showConfirmDialog(null,
+						"El usuario no puede estar ya registrado y debe tener:\n  -Una longitud mínima de 6 caracteres.\n  -Al menos una mayúscula.\n  -Al menos una minúscula.\n  -Al menos un número.",
+						"Usuario no compatible", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+
 			}
 		});
 		txtrUsuarioNoDisponible.setText("Usuario no disponible.");
@@ -124,15 +135,16 @@ public class InterfazRegister extends JFrame {
 		txtrUsuarioNoDisponible.setBounds(217, 66, 197, 22);
 		txtrUsuarioNoDisponible.setVisible(false);
 		panel.add(txtrUsuarioNoDisponible);
-		
+
 		JTextArea txtrMailNoValido = new JTextArea();
 		txtrMailNoValido.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-				JOptionPane.showMessageDialog(null,
-						"El e-mail debe contener caracteres, un @, más caracteres, un '.' y una extensión.",
-						"Correo no compatible", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showConfirmDialog(null,
+						"El e-mail debe contener:\n  -Caracteres, un @, más caracteres, un '.' y una extensión (ejemplo@hola.com).\n  -El correo no puede estar ya registrado",
+						"Correo no compatible", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+
 			}
 		});
 		txtrMailNoValido.setText("Mail no valido.");
@@ -143,29 +155,87 @@ public class InterfazRegister extends JFrame {
 		txtrMailNoValido.setBounds(329, 99, 85, 22);
 		txtrMailNoValido.setVisible(false);
 		panel.add(txtrMailNoValido);
-		
+
 		JTextArea txtrLasClavesNo = new JTextArea();
+		txtrLasClavesNo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				JOptionPane.showConfirmDialog(null, "Las claves deben coincidir para que te deje registrar la cuenta.",
+						"Las claves no coinciden", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+
+			}
+		});
+		txtrLasClavesNo.setText("Las claves no coinciden");
+		txtrLasClavesNo.setForeground(Color.RED);
+		txtrLasClavesNo.setFont(new Font("Miriam Mono CLM", Font.BOLD, 10));
+		txtrLasClavesNo.setEditable(false);
+		txtrLasClavesNo.setBackground(new Color(220, 220, 220));
+		txtrLasClavesNo.setBounds(280, 132, 144, 22);
+		txtrLasClavesNo.setVisible(false);
+		panel.add(txtrLasClavesNo);
+
 		JTextArea txtrLasClavesNo_1 = new JTextArea();
+		txtrLasClavesNo_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				JOptionPane.showConfirmDialog(null,
+						"La clave debe tener:\n  -Una longitud mínima de 8 caracteres.\n  -Al menos una mayúscula.\n  -Al menos una minúscula.\n  -Al menos un número.",
+						"Contraseña no compatible", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+			}
+		});
+		txtrLasClavesNo_1.setText("Las claves no cumplen los requisitos.");
+		txtrLasClavesNo_1.setForeground(Color.RED);
+		txtrLasClavesNo_1.setFont(new Font("Miriam Mono CLM", Font.BOLD, 10));
+		txtrLasClavesNo_1.setEditable(false);
+		txtrLasClavesNo_1.setBackground(new Color(220, 220, 220));
+		txtrLasClavesNo_1.setBounds(111, 187, 233, 22);
+		txtrLasClavesNo_1.setVisible(false);
+		panel.add(txtrLasClavesNo_1);
 
 		JButton btnRegistrarte = new JButton("Registrarte");
 		btnRegistrarte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Funciones.requisitosUser(textField.getText()) && Funciones.requisitosMail(textField_1.getText())
+				if (Funciones.requisitosUser(textField.getText())
+						&& !Funciones.existeEnBaseDatos(textField.getText(), "Usuario")
+						&& Funciones.requisitosMail(textField_1.getText())
+						&& !Funciones.existeEnBaseDatos(textField_1.getText(), "Correo")
 						&& Funciones.requisitosClave(passwordField.getText())
-						&& passwordField.getText() == passwordField_2.getText()) {
-					
-					System.out.println("hola");
-					JOptionPane.showMessageDialog(null, "Enhorabuena, su cuenta fue creada y guardada.", "Cuenta registrada", JOptionPane.PLAIN_MESSAGE);
+						&& passwordField.getText().equals(passwordField_2.getText())) {
+
+					txtrMailNoValido.setVisible(false);
+					txtrUsuarioNoDisponible.setVisible(false);
+					txtrLasClavesNo_1.setVisible(false);
+					txtrLasClavesNo.setVisible(false);
+
+					try {
+						c.EjecutarUpdate(
+								"INSERT INTO `registrodeconsultores` (`Usuario`, `Correo`, `Contrasena`) VALUES ('"
+										+ textField.getText() + "', '" + textField_1.getText() + "', '"
+										+ passwordField.getText() + "')");
+						ImageIcon icon = new ImageIcon("src/Imagenes/OK.png");
+						JOptionPane.showConfirmDialog(null, "Enhorabuena, se registró correctamente.", "Registro",
+								JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+						InterfazLogin l = new InterfazLogin();
+						l.setVisible(true);
+						dispose();
+
+					} catch (SQLException e1) {
+						System.out.println("Error en la consulta INSERT INTO.");
+					}
 
 				} else {
 
-					if (!Funciones.requisitosUser(textField.getText())) {
+					if (!Funciones.requisitosUser(textField.getText())
+							|| Funciones.existeEnBaseDatos(textField.getText(), "Usuario")) {
 
 						txtrUsuarioNoDisponible.setVisible(true);
 
 					}
 
-					if (!Funciones.requisitosMail(textField_1.getText())) {
+					if (!Funciones.requisitosMail(textField_1.getText())
+							|| Funciones.existeEnBaseDatos(textField_1.getText(), "Correo")) {
 
 						txtrMailNoValido.setVisible(true);
 
@@ -173,52 +243,25 @@ public class InterfazRegister extends JFrame {
 
 					if (!Funciones.requisitosClave(passwordField.getText())) {
 
-						txtrLasClavesNo_1.addMouseListener(new MouseAdapter() {
-							@Override
-							public void mouseClicked(MouseEvent e) {
-
-								JOptionPane.showMessageDialog(null,
-										"La clave debe tener:\nUna longitud mínima de 8 caracteres.\nAl menos una mayúscula.\nAl menos una minúscula.\nAl menos un número.",
-										"Usuario no compatible", JOptionPane.INFORMATION_MESSAGE);
-							}
-						});
-						txtrLasClavesNo_1.setText("Las claves no cumplen los requisitos.");
-						txtrLasClavesNo_1.setForeground(Color.RED);
-						txtrLasClavesNo_1.setFont(new Font("Miriam Mono CLM", Font.BOLD, 10));
-						txtrLasClavesNo_1.setEditable(false);
-						txtrLasClavesNo_1.setBackground(new Color(220, 220, 220));
-						txtrLasClavesNo_1.setBounds(111, 187, 233, 22);
-						panel.add(txtrLasClavesNo_1);
+						txtrLasClavesNo_1.setVisible(true);
 
 					}
 
 					if (!passwordField.getText().equals(passwordField_2.getText())) {
 
-						txtrLasClavesNo.addMouseListener(new MouseAdapter() {
-							@Override
-							public void mouseClicked(MouseEvent e) {
+						txtrLasClavesNo.setVisible(true);
 
-								JOptionPane.showMessageDialog(null, "Las claves deben coincidir para que te deje registrar la cuenta.",
-										"Las claves no coinciden", JOptionPane.INFORMATION_MESSAGE);
-							}
-						});
-						txtrLasClavesNo.setText("Las claves no coinciden");
-						txtrLasClavesNo.setForeground(Color.RED);
-						txtrLasClavesNo.setFont(new Font("Miriam Mono CLM", Font.BOLD, 10));
-						txtrLasClavesNo.setEditable(false);
-						txtrLasClavesNo.setBackground(new Color(220, 220, 220));
-						txtrLasClavesNo.setBounds(280, 132, 144, 22);
-						panel.add(txtrLasClavesNo);
-						
 					}
-					
-					if (Funciones.requisitosUser(textField.getText())) {
+
+					if (Funciones.requisitosUser(textField.getText())
+							&& !Funciones.existeEnBaseDatos(textField.getText(), "Usuario")) {
 
 						txtrUsuarioNoDisponible.setVisible(false);
 
 					}
 
-					if (Funciones.requisitosMail(textField_1.getText())) {
+					if (Funciones.requisitosMail(textField_1.getText())
+							&& Funciones.existeEnBaseDatos(textField_1.getText(), "Correo")) {
 
 						txtrMailNoValido.setVisible(false);
 
@@ -233,7 +276,7 @@ public class InterfazRegister extends JFrame {
 					if (passwordField.getText().equals(passwordField_2.getText())) {
 
 						txtrLasClavesNo.setVisible(false);
-						
+
 					}
 
 				}
@@ -265,6 +308,8 @@ public class InterfazRegister extends JFrame {
 		panel.add(txtrRepetirLaClave);
 
 		passwordField_2 = new JPasswordField();
+		RestrictedTextField r3 = new RestrictedTextField(passwordField_2, "abcdefghijklmnñopqrstuvwxyz1234567890");
+        r3.setLimit(10);
 		passwordField_2.setBounds(184, 162, 96, 20);
 		passwordField_2.setEchoChar('*');
 		passwordField_2.setBackground(Color.LIGHT_GRAY);
@@ -275,7 +320,6 @@ public class InterfazRegister extends JFrame {
 		textField_1.setBackground(Color.LIGHT_GRAY);
 		panel.add(textField_1);
 		textField_1.setColumns(10);
-
 
 	}
 }
