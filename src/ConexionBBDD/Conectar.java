@@ -44,6 +44,7 @@ public class Conectar {
 	    public static void EjecutarUpdate(String Sentencia) throws SQLException{
 	    	try{
 	    		consulta.executeUpdate(Sentencia);
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 	    		System.out.println("Done.");
 	    	}catch(SQLException e){
@@ -54,6 +55,11 @@ public class Conectar {
 	    		e.printStackTrace();
  
 >>>>>>> Stashed changes
+=======
+	    	}catch(SQLException e){
+	    		e.printStackTrace();
+ 
+>>>>>>> develop
 	    	} 
 	    }
 	    

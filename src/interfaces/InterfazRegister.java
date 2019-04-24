@@ -14,10 +14,14 @@ import javax.swing.JTextArea;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 import javax.swing.ImageIcon;
 >>>>>>> Stashed changes
+=======
+import javax.swing.ImageIcon;
+>>>>>>> develop
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,10 +31,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 import java.sql.SQLException;
 >>>>>>> Stashed changes
+=======
+import java.sql.SQLException;
+>>>>>>> develop
 
 public class InterfazRegister extends JFrame {
 
@@ -44,6 +52,7 @@ public class InterfazRegister extends JFrame {
 	 * Create the frame.
 	 */
 	public InterfazRegister() {
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 		
 		Conectar c = new Conectar();
@@ -56,6 +65,13 @@ public class InterfazRegister extends JFrame {
 		c.Conectar();
 
 >>>>>>> Stashed changes
+=======
+
+		ImageIcon icon = new ImageIcon("src/Imagenes/INFO.png");
+		Conectar c = new Conectar();
+		c.Conectar();
+
+>>>>>>> develop
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -111,9 +127,9 @@ public class InterfazRegister extends JFrame {
 		JButton btnNewButton = new JButton("Cancelar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
 				InterfazLogin l = new InterfazLogin();
 				l.setVisible(true);
+				dispose();
 			}
 		});
 		btnNewButton.setBounds(34, 210, 156, 30);
@@ -121,16 +137,21 @@ public class InterfazRegister extends JFrame {
 		btnNewButton.setBackground(Color.LIGHT_GRAY);
 		btnNewButton.setForeground(Color.BLACK);
 		panel.add(btnNewButton);
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 		
 =======
 
 >>>>>>> Stashed changes
+=======
+
+>>>>>>> develop
 		JTextArea txtrUsuarioNoDisponible = new JTextArea();
 		txtrUsuarioNoDisponible.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 				JOptionPane.showMessageDialog(null,
 						"El usuario no puede estar ya registrado y debe tener:\nUna longitud mínima de 6 caracteres.\nAl menos una mayúscula.\nAl menos una minúscula.\nAl menos un número.",
@@ -141,6 +162,12 @@ public class InterfazRegister extends JFrame {
 						"Usuario no compatible", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
 
 >>>>>>> Stashed changes
+=======
+				JOptionPane.showConfirmDialog(null,
+						"El usuario no puede estar ya registrado y debe tener:\n  -Una longitud mínima de 6 caracteres.\n  -Al menos una mayúscula.\n  -Al menos una minúscula.\n  -Al menos un número.",
+						"Usuario no compatible", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+
+>>>>>>> develop
 			}
 		});
 		txtrUsuarioNoDisponible.setText("Usuario no disponible.");
@@ -151,16 +178,21 @@ public class InterfazRegister extends JFrame {
 		txtrUsuarioNoDisponible.setBounds(217, 66, 197, 22);
 		txtrUsuarioNoDisponible.setVisible(false);
 		panel.add(txtrUsuarioNoDisponible);
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 		
 =======
 
 >>>>>>> Stashed changes
+=======
+
+>>>>>>> develop
 		JTextArea txtrMailNoValido = new JTextArea();
 		txtrMailNoValido.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 				JOptionPane.showMessageDialog(null,
 						"El e-mail debe contener caracteres, un @, más caracteres, un '.' y una extensión.",
@@ -171,6 +203,12 @@ public class InterfazRegister extends JFrame {
 						"Correo no compatible", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
 
 >>>>>>> Stashed changes
+=======
+				JOptionPane.showConfirmDialog(null,
+						"El e-mail debe contener:\n  -Caracteres, un @, más caracteres, un '.' y una extensión (ejemplo@hola.com).\n  -El correo no puede estar ya registrado",
+						"Correo no compatible", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+
+>>>>>>> develop
 			}
 		});
 		txtrMailNoValido.setText("Mail no valido.");
@@ -181,10 +219,33 @@ public class InterfazRegister extends JFrame {
 		txtrMailNoValido.setBounds(329, 99, 85, 22);
 		txtrMailNoValido.setVisible(false);
 		panel.add(txtrMailNoValido);
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 		
+=======
+
+>>>>>>> develop
 		JTextArea txtrLasClavesNo = new JTextArea();
+		txtrLasClavesNo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				JOptionPane.showConfirmDialog(null, "Las claves deben coincidir para que te deje registrar la cuenta.",
+						"Las claves no coinciden", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+
+			}
+		});
+		txtrLasClavesNo.setText("Las claves no coinciden");
+		txtrLasClavesNo.setForeground(Color.RED);
+		txtrLasClavesNo.setFont(new Font("Miriam Mono CLM", Font.BOLD, 10));
+		txtrLasClavesNo.setEditable(false);
+		txtrLasClavesNo.setBackground(new Color(220, 220, 220));
+		txtrLasClavesNo.setBounds(280, 132, 144, 22);
+		txtrLasClavesNo.setVisible(false);
+		panel.add(txtrLasClavesNo);
+
 		JTextArea txtrLasClavesNo_1 = new JTextArea();
+<<<<<<< HEAD
 =======
 
 		JTextArea txtrLasClavesNo = new JTextArea();
@@ -207,14 +268,21 @@ public class InterfazRegister extends JFrame {
 		panel.add(txtrLasClavesNo);
 
 		JTextArea txtrLasClavesNo_1 = new JTextArea();
+=======
+>>>>>>> develop
 		txtrLasClavesNo_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
 				JOptionPane.showConfirmDialog(null,
+<<<<<<< HEAD
 						"La clave debe tener:\\nUna longitud mínima de 8 caracteres.\\nAl menos una mayúscula.\\nAl menos una minúscula.\\nAl menos un número.",
 						"Contraseña no compatible", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
 
+=======
+						"La clave debe tener:\n  -Una longitud mínima de 8 caracteres.\n  -Al menos una mayúscula.\n  -Al menos una minúscula.\n  -Al menos un número.",
+						"Contraseña no compatible", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+>>>>>>> develop
 			}
 		});
 		txtrLasClavesNo_1.setText("Las claves no cumplen los requisitos.");
@@ -225,22 +293,51 @@ public class InterfazRegister extends JFrame {
 		txtrLasClavesNo_1.setBounds(111, 187, 233, 22);
 		txtrLasClavesNo_1.setVisible(false);
 		panel.add(txtrLasClavesNo_1);
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> develop
 
 		JButton btnRegistrarte = new JButton("Registrarte");
 		btnRegistrarte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 				if (Funciones.requisitosUser(textField.getText()) && Funciones.requisitosMail(textField_1.getText())
+=======
+				if (Funciones.requisitosUser(textField.getText())
+						&& !Funciones.existeEnBaseDatos(textField.getText(), "Usuario")
+						&& Funciones.requisitosMail(textField_1.getText())
+						&& !Funciones.existeEnBaseDatos(textField_1.getText(), "Correo")
+>>>>>>> develop
 						&& Funciones.requisitosClave(passwordField.getText())
-						&& passwordField.getText() == passwordField_2.getText()) {
-					
-					System.out.println("hola");
-					JOptionPane.showMessageDialog(null, "Enhorabuena, su cuenta fue creada y guardada.", "Cuenta registrada", JOptionPane.PLAIN_MESSAGE);
+						&& passwordField.getText().equals(passwordField_2.getText())) {
+
+					txtrMailNoValido.setVisible(false);
+					txtrUsuarioNoDisponible.setVisible(false);
+					txtrLasClavesNo_1.setVisible(false);
+					txtrLasClavesNo.setVisible(false);
+
+					try {
+						c.EjecutarUpdate(
+								"INSERT INTO `registrodeconsultores` (`Usuario`, `E-mail`, `Contrasena`) VALUES ('"
+										+ textField.getText() + "', '" + textField_1.getText() + "', '"
+										+ passwordField.getText() + "')");
+						ImageIcon icon = new ImageIcon("src/Imagenes/OK.png");
+						JOptionPane.showConfirmDialog(null, "Enhorabuena, se registró correctamente.", "Registro",
+								JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+						InterfazLogin l = new InterfazLogin();
+						l.setVisible(true);
+						dispose();
+
+					} catch (SQLException e1) {
+						System.out.println("Error en la consulta INSERT INTO.");
+					}
 
 				} else {
 
-					if (!Funciones.requisitosUser(textField.getText())) {
+					if (!Funciones.requisitosUser(textField.getText())
+							|| Funciones.existeEnBaseDatos(textField.getText(), "Usuario")) {
 
 						txtrUsuarioNoDisponible.setVisible(true);
 =======
@@ -280,7 +377,8 @@ public class InterfazRegister extends JFrame {
 
 					}
 
-					if (!Funciones.requisitosMail(textField_1.getText())) {
+					if (!Funciones.requisitosMail(textField_1.getText())
+							|| Funciones.existeEnBaseDatos(textField_1.getText(), "Correo")) {
 
 						txtrMailNoValido.setVisible(true);
 <<<<<<< Updated upstream
@@ -292,6 +390,7 @@ public class InterfazRegister extends JFrame {
 
 					if (!Funciones.requisitosClave(passwordField.getText())) {
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 						txtrLasClavesNo_1.addMouseListener(new MouseAdapter() {
 							@Override
@@ -313,11 +412,15 @@ public class InterfazRegister extends JFrame {
 						txtrLasClavesNo_1.setVisible(true);
 						txtrLasClavesNo_1.setVisible(true);
 >>>>>>> Stashed changes
+=======
+						txtrLasClavesNo_1.setVisible(true);
+>>>>>>> develop
 
 					}
 
 					if (!passwordField.getText().equals(passwordField_2.getText())) {
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 						txtrLasClavesNo.addMouseListener(new MouseAdapter() {
 							@Override
@@ -347,12 +450,21 @@ public class InterfazRegister extends JFrame {
 					if (Funciones.requisitosUser(textField.getText())
 							&& !Funciones.usuarioExiste(textField.getText())) {
 >>>>>>> Stashed changes
+=======
+						txtrLasClavesNo.setVisible(true);
+
+					}
+
+					if (Funciones.requisitosUser(textField.getText())
+							&& !Funciones.existeEnBaseDatos(textField.getText(), "Usuario")) {
+>>>>>>> develop
 
 						txtrUsuarioNoDisponible.setVisible(false);
 
 					}
 
-					if (Funciones.requisitosMail(textField_1.getText())) {
+					if (Funciones.requisitosMail(textField_1.getText())
+							&& Funciones.existeEnBaseDatos(textField_1.getText(), "Correo")) {
 
 						txtrMailNoValido.setVisible(false);
 
@@ -367,11 +479,15 @@ public class InterfazRegister extends JFrame {
 					if (passwordField.getText().equals(passwordField_2.getText())) {
 
 						txtrLasClavesNo.setVisible(false);
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 						
 =======
 
 >>>>>>> Stashed changes
+=======
+
+>>>>>>> develop
 					}
 
 				}
@@ -414,9 +530,12 @@ public class InterfazRegister extends JFrame {
 		panel.add(textField_1);
 		textField_1.setColumns(10);
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> develop
 	}
 }

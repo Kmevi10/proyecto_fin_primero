@@ -14,6 +14,7 @@ public class InterfazHome extends JFrame {
 
 	public InterfazHome(String username) {
 
+		
 		String is;
 		Conectar c = new Conectar();
 		c.Conectar();
@@ -123,24 +124,31 @@ public class InterfazHome extends JFrame {
 				}
 			}
 		});
+		
+		JButton button = new JButton("Cerrar sesión");
+		button.setVisible(false);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InterfazHome h = new InterfazHome(null);
+				h.setVisible(true);
+				dispose();
+			}
+		});
+		button.setFont(new Font("Monospaced", Font.BOLD, 11));
+		button.setBackground(Color.LIGHT_GRAY);
+		button.setBounds(220, 304, 154, 23);
+		panel.add(button);
+		
 		btnSi.setBounds(399, 27, 154, 23);
 		panel.add(btnSi);
 		
 		if (username != null) {
 			
-			JButton button = new JButton("Cerrar sesión");
-			button.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					InterfazHome h = new InterfazHome(null);
-					h.setVisible(true);
-					dispose();
-				}
-			});
-			button.setFont(new Font("Monospaced", Font.BOLD, 11));
-			button.setBackground(Color.LIGHT_GRAY);
-			button.setBounds(220, 304, 154, 23);
-			panel.add(button);
+			button.setVisible(true);
+			btnNewButton.enable();
+			btnRegistrarte.enable();
 			
 		}
+		
 	}
 }
