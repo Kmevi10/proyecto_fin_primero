@@ -2,9 +2,18 @@ package Funciones;
 
 import java.util.Random;
 
+<<<<<<< Updated upstream
 public class Funciones {
 
 	public static String generaContraseña() {
+=======
+import ConexionBBDD.Conectar;
+
+public class Funciones {
+
+	public static String generaContraseña() {
+		
+>>>>>>> Stashed changes
 
 		Random r = new Random();
 		int n;
@@ -54,5 +63,28 @@ public class Funciones {
         java.util.regex.Matcher m = p.matcher(usuario);
         return m.matches();
 	}
+<<<<<<< Updated upstream
+=======
+	
+	public static boolean usuarioExiste(String usuario) {
+		
+		Conectar c = new Conectar();
+		c.Conectar();		
+		boolean existe = false;
+		String[] usuarios = c.EjecutarSentencia("SELECT Usuario FROM registrodeconsultores", "Usuario");
+		for (int i = 0; i < usuarios.length; i++) {
+
+			if (usuarios[i].equals(usuario)) {
+
+				existe = true;
+
+			}
+
+		}
+
+		return existe;
+		
+	}
+>>>>>>> Stashed changes
 
 }

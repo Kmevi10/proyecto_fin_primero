@@ -44,10 +44,16 @@ public class Conectar {
 	    public static void EjecutarUpdate(String Sentencia) throws SQLException{
 	    	try{
 	    		consulta.executeUpdate(Sentencia);
+<<<<<<< Updated upstream
 	    		System.out.println("Done.");
 	    	}catch(SQLException e){
 	    		
 	    		throw new SQLException("");
+=======
+	    	}catch(SQLException e){
+	    		e.printStackTrace();
+ 
+>>>>>>> Stashed changes
 	    	} 
 	    }
 	    
