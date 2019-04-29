@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import ConexionBBDD.Conectar;
 import Funciones.Funciones;
-
+import Atxy2k.CustomTextField.RestrictedTextField;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import java.awt.Color;
@@ -27,6 +27,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import java.awt.event.MouseAdapter;
@@ -38,6 +40,10 @@ import java.sql.SQLException;
 >>>>>>> Stashed changes
 =======
 import java.sql.SQLException;
+<<<<<<< HEAD
+>>>>>>> develop
+=======
+import javax.swing.DropMode;
 >>>>>>> develop
 
 public class InterfazRegister extends JFrame {
@@ -103,6 +109,8 @@ public class InterfazRegister extends JFrame {
 		panel.add(txtrLogin);
 
 		textField = new JTextField();
+		RestrictedTextField r1 = new RestrictedTextField(textField, "abcdefghijklmnñopqrstuvwxyz1234567890");
+        r1.setLimit(10);
 		textField.setBounds(111, 63, 96, 20);
 		textField.setBackground(Color.LIGHT_GRAY);
 		textField.setForeground(Color.BLACK);
@@ -119,6 +127,8 @@ public class InterfazRegister extends JFrame {
 		panel.add(txtrContrasea);
 
 		passwordField = new JPasswordField();
+		RestrictedTextField r2 = new RestrictedTextField(passwordField, "abcdefghijklmnñopqrstuvwxyz1234567890");
+        r2.setLimit(10);
 		passwordField.setBounds(174, 129, 96, 20);
 		passwordField.setBackground(Color.LIGHT_GRAY);
 		passwordField.setEchoChar('*');
@@ -320,7 +330,7 @@ public class InterfazRegister extends JFrame {
 
 					try {
 						c.EjecutarUpdate(
-								"INSERT INTO `registrodeconsultores` (`Usuario`, `E-mail`, `Contrasena`) VALUES ('"
+								"INSERT INTO `registrodeconsultores` (`Usuario`, `Correo`, `Contrasena`) VALUES ('"
 										+ textField.getText() + "', '" + textField_1.getText() + "', '"
 										+ passwordField.getText() + "')");
 						ImageIcon icon = new ImageIcon("src/Imagenes/OK.png");
@@ -519,6 +529,8 @@ public class InterfazRegister extends JFrame {
 		panel.add(txtrRepetirLaClave);
 
 		passwordField_2 = new JPasswordField();
+		RestrictedTextField r3 = new RestrictedTextField(passwordField_2, "abcdefghijklmnñopqrstuvwxyz1234567890");
+        r3.setLimit(10);
 		passwordField_2.setBounds(184, 162, 96, 20);
 		passwordField_2.setEchoChar('*');
 		passwordField_2.setBackground(Color.LIGHT_GRAY);
