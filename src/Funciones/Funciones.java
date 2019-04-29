@@ -100,5 +100,16 @@ public class Funciones {
 		}
 
 	}
+	
+	public static String[] datosTotales(String user) throws SQLException {
+		
+		Conectar c = new Conectar();
+		c.Conectar();
+		String[] mail = c.EjecutarSentencia("SELECT Correo FROM `registrodeconsultores` WHERE Usuario='" + user + "'", "Correo");
+		String[] pass = c.EjecutarSentencia("SELECT Contrasena FROM `registrodeconsultores` WHERE Usuario='" + user + "'", "Contrasena");
+		String[] devolver = { mail[0], pass[0]};
+		return devolver;
+		
+	}
 
 }

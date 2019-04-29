@@ -1,6 +1,8 @@
 package interfaces;
 
 import ConexionBBDD.*;
+import Funciones.Funciones;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,11 +65,13 @@ public class InterfazHome extends JFrame {
 		btnVisualizarBatallas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String[] local = c.EjecutarSentencia("SELECT Local FROM consultarbatallas", "Local");
-				String[] visitante = c.EjecutarSentencia("SELECT Visitante FROM consultarbatallas", "Visitante");
+				String[] local = c.EjecutarSentencia("SELECT Local FROM consultarbatallas WHERE Usuario LIKE '" + username + "'", "Local");
+				String[] visitante = c.EjecutarSentencia("SELECT Visitante FROM consultarbatallas WHERE Usuario LIKE '" + username + "'", "Visitante");
+				String[] fecha = c.EjecutarSentencia("SELECT Fecha FROM consultarbatallas WHERE Usuario LIKE '" + username + "'", "Fecha");
 				for (int i = 0; i < local.length; i++) {
-					System.out.println(local[i] + " V/S " + visitante[i]);
+					System.out.println(local[i] + " V/S " + visitante[i] + " el día " + fecha[i]);
 				}
+				
 			}
 		});
 		btnVisualizarBatallas.setForeground(Color.BLACK);
@@ -116,11 +120,15 @@ public class InterfazHome extends JFrame {
 					InterfazLogin l = new InterfazLogin();
 					l.setVisible(true);
 				} else {
-
-					JOptionPane.showMessageDialog(null,
-							"Ya ha iniciado el susario " + username + ", cierre sesion si quiere cambiar.", "Users",
-							JOptionPane.WARNING_MESSAGE);					
 					
+					String[] datos = new String[5];
+					try {
+						datos = Funciones.datosTotales(is);
+					} catch (SQLException e1) {}
+					InterfazDatosCuenta dc = new InterfazDatosCuenta(is, datos[0], datos[1]);
+					dc.setVisible(true);
+					dispose();
+
 				}
 			}
 		});
@@ -129,9 +137,18 @@ public class InterfazHome extends JFrame {
 		button.setVisible(false);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InterfazHome h = new InterfazHome(null);
-				h.setVisible(true);
-				dispose();
+				ImageIcon icon = new ImageIcon("src/Imagenes/ALERT.png");
+				int decision = JOptionPane.showConfirmDialog(null,
+						"¿Verdaderamente desea cerrar la sesión de " + username + "?",
+						"Cerrar sesión", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+				if (decision == JOptionPane.YES_OPTION) {
+					
+					InterfazHome h = new InterfazHome(null);
+					h.setVisible(true);
+					dispose();
+					
+				}
+				
 			}
 		});
 		button.setFont(new Font("Monospaced", Font.BOLD, 11));
