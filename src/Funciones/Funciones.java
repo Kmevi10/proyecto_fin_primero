@@ -1,6 +1,10 @@
 package Funciones;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.SQLException;
+<<<<<<< HEAD
 import java.util.Random;
 
 <<<<<<< HEAD
@@ -8,8 +12,16 @@ import java.util.Random;
 =======
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+=======
+import java.text.*;
+import java.util.*;
+import javax.swing.*;
+>>>>>>> develop
 
 import ConexionBBDD.Conectar;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 >>>>>>> develop
 public class Funciones {
@@ -113,6 +125,7 @@ public class Funciones {
 
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 	
@@ -138,14 +151,130 @@ public class Funciones {
 >>>>>>> Stashed changes
 =======
 	
+=======
+
+>>>>>>> develop
 	public static String[] datosTotales(String user) throws SQLException {
-		
+
 		Conectar c = new Conectar();
 		c.Conectar();
-		String[] mail = c.EjecutarSentencia("SELECT Correo FROM `registrodeconsultores` WHERE Usuario='" + user + "'", "Correo");
-		String[] pass = c.EjecutarSentencia("SELECT Contrasena FROM `registrodeconsultores` WHERE Usuario='" + user + "'", "Contrasena");
-		String[] devolver = { mail[0], pass[0]};
+		String[] mail = c.EjecutarSentencia("SELECT Correo FROM `registrodeconsultores` WHERE Usuario='" + user + "'",
+				"Correo");
+		String[] pass = c.EjecutarSentencia(
+				"SELECT Contrasena FROM `registrodeconsultores` WHERE Usuario='" + user + "'", "Contrasena");
+		String[] devolver = { mail[0], pass[0] };
 		return devolver;
+
+	}
+
+	public static boolean requisitosFecha(String fecha) {
+		try {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			df.setLenient(false);
+			df.parse(fecha);
+			return fechaMayor(fecha);
+		} catch (ParseException e) {
+			return false;
+		}
+		
+	}
+	
+	public static boolean fechaMayor(String date) {
+		
+		String dateNow = "" + LocalDate.now(ZoneId.of("Europe/Paris"));
+		int year = simplificarFecha(date,1);
+		int yearNow = simplificarFecha(dateNow, 1);
+		if (year >= yearNow) {
+			if (year > yearNow) {
+				return true;
+			} else {
+				int month = simplificarFecha(date, 2);
+				if (month < 1 || month > 12) {
+					return false;
+				}
+				int diaMax = diaMaximoMes(month, year);
+				int monthNow = simplificarFecha(dateNow, 2);
+				if (month >= monthNow) {
+					if (month > monthNow) {
+						return true;
+					} else {
+						int day = simplificarFecha(date, 3);
+						if (day < 1 || day > diaMax) {
+							return false;
+						}
+						int dayNow = simplificarFecha(dateNow, 3);
+						if (day >= dayNow) {
+								return true;
+						} else {
+							return false;
+						}
+					}
+				} else {
+					return false;
+				}
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	private static int diaMaximoMes(int month, int year) {
+		int dias;
+		
+		switch(month) {
+		case 1:
+		case 3:
+		case 5:
+		case 7:
+		case 8:
+		case 10:
+		case 12:
+			dias = 31;
+			break;
+		case 2:
+			dias = 28;
+			break;
+		default:
+			dias = 30;
+			break;
+		}
+		if ((year % 4 == 0 && year % 100 != 0 || year % 400 == 0) && month == 2) {
+			dias ++;
+		}
+		return dias;
+	}
+
+	public static int simplificarFecha(String date, int ymd) {
+		String devolver = "";
+		int control = 0;
+		for (int i = 0; i < ymd; i++) {
+			devolver = "";
+			while (date.charAt(control) != '-' || control < date.length() - 1) {
+				devolver += date.charAt(control);
+				control++;
+			}
+			control++;
+		}
+		return Integer.parseInt(devolver);
+	}
+
+	public static void savedOnFile(String text, String directorio) throws IOException {
+
+		FileWriter writer = new FileWriter(directorio);
+		writer.write(text);
+		writer.close();
+		
+	}
+	
+	public static String takeToFile(String directorio) throws IOException {
+
+		String text = "";
+		File file = new File(directorio);
+		Scanner q = new Scanner(file);
+		while (q.hasNextLine()) {
+			text += q.nextLine();
+		}
+		return text;
 		
 	}
 >>>>>>> develop

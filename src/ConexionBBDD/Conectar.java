@@ -29,8 +29,7 @@ public class Conectar {
 	    }
 	    
 	    public static String[] EjecutarSentencia(String Sentencia, String tabla){
-	    	int cont = saberLongitud(Sentencia, tabla);
-	    	String[] devolver = new String[cont];
+	    	String[] devolver = new String[saberLongitud(Sentencia, tabla)];
 	        try {
 	        	resultado = consulta.executeQuery(Sentencia);
 	        	for (int i = 0; resultado.next(); i++) {
