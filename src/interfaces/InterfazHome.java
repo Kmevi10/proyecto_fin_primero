@@ -28,19 +28,37 @@ public class InterfazHome extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 
+		JButton btnNewButton = new JButton("A\u00F1adir Batalla");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if (username == null) {
+					ImageIcon icon = new ImageIcon("src/Imagenes/INFO.png");
+					int decision = JOptionPane.showConfirmDialog(null,
+							"Sin iniciar sesión no podrá añadir\nbatallas ¿desea iniciar sesión?",
+							"Visualizar batallas", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+					if (decision == JOptionPane.YES_OPTION) {
+						
+						InterfazLogin l = new InterfazLogin();
+						l.setVisible(true);
+						dispose();
+						
+					}
+
+				} else {
+					InterfazAñadir a = new InterfazAñadir(username);
+					a.setVisible(true);
+					dispose();
+				}
+				
+			}
+		});
+		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(220, 220, 220));
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
-		JButton btnNewButton = new JButton("A\u00F1adir Batalla");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				// if (no se ha registrado); InterfazLogin.setvisible;
-
-			}
-		});
 		btnNewButton.setFont(new Font("Monospaced", Font.BOLD, 12));
 		btnNewButton.setBackground(Color.LIGHT_GRAY);
 		btnNewButton.setForeground(Color.BLACK);
@@ -64,12 +82,26 @@ public class InterfazHome extends JFrame {
 		JButton btnVisualizarBatallas = new JButton("Visualizar Batallas");
 		btnVisualizarBatallas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				String[] local = c.EjecutarSentencia("SELECT Local FROM consultarbatallas WHERE Usuario LIKE '" + username + "'", "Local");
-				String[] visitante = c.EjecutarSentencia("SELECT Visitante FROM consultarbatallas WHERE Usuario LIKE '" + username + "'", "Visitante");
-				String[] fecha = c.EjecutarSentencia("SELECT Fecha FROM consultarbatallas WHERE Usuario LIKE '" + username + "'", "Fecha");
-				for (int i = 0; i < local.length; i++) {
-					System.out.println(local[i] + " V/S " + visitante[i] + " el día " + fecha[i]);
+				if (username == null) {
+					
+					ImageIcon icon = new ImageIcon("src/Imagenes/INFO.png");
+					int decision = JOptionPane.showConfirmDialog(null,
+							"Sin estar registrado no podremos enseñarle sus\nbatallas, pero podrás ver todas las pendientes de\nlos demás usuarios, ¿quieres entrar?",
+							"Visualizar batallas", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+					if (decision == JOptionPane.YES_OPTION) {
+						
+						InterfazVisualizarTodo vt = new InterfazVisualizarTodo(username);
+						vt.setVisible(true);
+						dispose();
+						
+					}
+					
+				} else {
+					
+					InterfazVisualizar v = new InterfazVisualizar(username);
+					v.setVisible(true);
+					dispose();
+					
 				}
 				
 			}
