@@ -140,20 +140,6 @@ public class InterfazVisualizarTodo extends JFrame {
 				btnAceptar.setVisible(true);
 			} 
 		} catch (Exception e) {}
-		try {
-			String[] local = c.EjecutarSentencia("SELECT local FROM consultarbatallas WHERE Fecha LIKE ('')", "local");
-			String[] visitante = c.EjecutarSentencia("SELECT visitante FROM consultarbatallas WHERE Fecha LIKE ('')", "visitante");
-			String[] fecha = c.EjecutarSentencia("SELECT fecha FROM consultarbatallas WHERE Fecha LIKE ('')", "fecha");
-			modelo.addColumn("Local");
-			modelo.addColumn("Visitante");
-			modelo.addColumn("Fecha");
-			for (int i = 0; i < local.length; i++) {
-				
-				String[] fila = {local[i], visitante[i], fecha[i]};
-				modelo.addRow(fila);
-				
-			}
-		} catch (Exception e) {}
 		
     }
 

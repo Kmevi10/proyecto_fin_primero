@@ -2,9 +2,12 @@ package interfaces;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import ConexionBBDD.Conectar;
+import Funciones.Funciones;
 
 public class InterfazLogin extends JFrame {
 
@@ -14,6 +17,10 @@ public class InterfazLogin extends JFrame {
 
 	public InterfazLogin() {
 
+		String a = "";
+		String b = "";
+		String du = "src/Ficheros/RecordarUsuario.txt";
+		String dc = "src/Ficheros/RecordarClave.txt";
 		Conectar c = new Conectar();
 		c.Conectar();
 
@@ -33,7 +40,7 @@ public class InterfazLogin extends JFrame {
 		txtrUsuario.setEditable(false);
 		txtrUsuario.setForeground(Color.DARK_GRAY);
 		txtrUsuario.setBackground(new Color(220, 220, 220));
-		txtrUsuario.setFont(new Font("Miriam Mono CLM", Font.BOLD, 13));
+		txtrUsuario.setFont(new Font("Monospaced", Font.BOLD, 13));
 		txtrUsuario.setBounds(34, 79, 67, 22);
 		txtrUsuario.setText("Usuario:");
 		panel.add(txtrUsuario);
@@ -47,7 +54,10 @@ public class InterfazLogin extends JFrame {
 		txtrLogin.setText("Login");
 		panel.add(txtrLogin);
 
-		textField = new JTextField();
+		try {
+			b = Funciones.takeToFile(du);
+		} catch (IOException e2) {}
+		textField = new JTextField(b);
 		textField.setBackground(Color.LIGHT_GRAY);
 		textField.setForeground(Color.BLACK);
 		textField.setBounds(111, 79, 96, 20);
@@ -58,9 +68,9 @@ public class InterfazLogin extends JFrame {
 		txtrContrasea.setEditable(false);
 		txtrContrasea.setText("Clave de acceso:");
 		txtrContrasea.setForeground(Color.DARK_GRAY);
-		txtrContrasea.setFont(new Font("Miriam Mono CLM", Font.BOLD, 13));
+		txtrContrasea.setFont(new Font("Monospaced", Font.BOLD, 13));
 		txtrContrasea.setBackground(new Color(220, 220, 220));
-		txtrContrasea.setBounds(34, 123, 135, 22);
+		txtrContrasea.setBounds(34, 112, 135, 22);
 		panel.add(txtrContrasea);
 
 		JButton btnhaOlvidadoSu = new JButton("\u00BFHa olvidado su clave de acceso?");
@@ -71,17 +81,28 @@ public class InterfazLogin extends JFrame {
 				rc.setVisible(true);
 			}
 		});
+
+		JCheckBox recordar = new JCheckBox("Recordar usuario y contrase\u00F1a");
+		recordar.setForeground(Color.DARK_GRAY);
+		recordar.setBackground(new Color(220,220,220));
+		recordar.setFont(new Font("Monospaced", Font.BOLD, 13));
+		recordar.setBounds(34, 141, 357, 28);
+		panel.add(recordar);
+		
 		btnhaOlvidadoSu.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		btnhaOlvidadoSu.setToolTipText("");
 		btnhaOlvidadoSu.setForeground(Color.DARK_GRAY);
 		btnhaOlvidadoSu.setBackground(Color.LIGHT_GRAY);
-		btnhaOlvidadoSu.setBounds(34, 164, 357, 23);
+		btnhaOlvidadoSu.setBounds(34, 176, 357, 23);
 		panel.add(btnhaOlvidadoSu);
 
-		passwordField = new JPasswordField();
+		try {
+			a = Funciones.takeToFile(dc);
+		} catch (IOException e2) {}
+		passwordField = new JPasswordField(a);
 		passwordField.setBackground(Color.LIGHT_GRAY);
 		passwordField.setEchoChar('*');
-		passwordField.setBounds(174, 123, 96, 20);
+		passwordField.setBounds(174, 112, 96, 20);
 		panel.add(passwordField);
 
 		JButton btnNewButton = new JButton("Entrar");
@@ -105,6 +126,12 @@ public class InterfazLogin extends JFrame {
 									+ textField.getText() + "\")", "Contrasena");
 					if (passwordField.getText().equals(claves[0])) {
 
+						if (recordar.isSelected()) {
+							try {
+								Funciones.savedOnFile(textField.getText(), du);
+								Funciones.savedOnFile(passwordField.getText(), dc);
+							} catch (IOException e1) {}
+						}
 						JOptionPane.showMessageDialog(null,
 								"Enhora buena " + textField.getText() + ", conseguiste entrar en tu cuenta.", "Login",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -133,7 +160,7 @@ public class InterfazLogin extends JFrame {
 		btnNewButton.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		btnNewButton.setBackground(Color.LIGHT_GRAY);
 		btnNewButton.setForeground(Color.BLACK);
-		btnNewButton.setBounds(34, 210, 156, 30);
+		btnNewButton.setBounds(235, 210, 156, 30);
 		panel.add(btnNewButton);
 
 		JButton btnRegistrarte = new JButton("Registrarte");
@@ -147,7 +174,7 @@ public class InterfazLogin extends JFrame {
 		btnRegistrarte.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		btnRegistrarte.setBackground(Color.LIGHT_GRAY);
 		btnRegistrarte.setForeground(Color.BLACK);
-		btnRegistrarte.setBounds(244, 210, 147, 30);
+		btnRegistrarte.setBounds(34, 210, 147, 30);
 		panel.add(btnRegistrarte);
 
 		JButton btnNoAccederA = new JButton("No iniciar sesion");
@@ -161,7 +188,8 @@ public class InterfazLogin extends JFrame {
 		btnNoAccederA.setForeground(Color.BLACK);
 		btnNoAccederA.setFont(new Font("Monospaced", Font.PLAIN, 9));
 		btnNoAccederA.setBackground(Color.LIGHT_GRAY);
-		btnNoAccederA.setBounds(279, 11, 135, 22);
+		btnNoAccederA.setBounds(279, 28, 135, 22);
 		panel.add(btnNoAccederA);
+		
 	}
 }

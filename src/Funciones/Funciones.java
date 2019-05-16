@@ -1,5 +1,8 @@
 package Funciones;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.*;
 import java.util.*;
@@ -205,6 +208,26 @@ public class Funciones {
 			control++;
 		}
 		return Integer.parseInt(devolver);
+	}
+
+	public static void savedOnFile(String text, String directorio) throws IOException {
+
+		FileWriter writer = new FileWriter(directorio);
+		writer.write(text);
+		writer.close();
+		
+	}
+	
+	public static String takeToFile(String directorio) throws IOException {
+
+		String text = "";
+		File file = new File(directorio);
+		Scanner q = new Scanner(file);
+		while (q.hasNextLine()) {
+			text += q.nextLine();
+		}
+		return text;
+		
 	}
 
 }
