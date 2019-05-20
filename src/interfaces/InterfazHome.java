@@ -70,7 +70,27 @@ public class InterfazHome extends JFrame {
 		btnRegistrarte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				// if (no se ha registrado); InterfazLogin.setvisible;
+				if (username == null) {
+					
+					ImageIcon icon = new ImageIcon("src/Imagenes/INFO.png");
+					int decision = JOptionPane.showConfirmDialog(null,
+							"Sin estar registrado no podremos dejarle borrar\nbatallas, ¿desea iniciar sesi\u00f3n?",
+							"Visualizar batallas", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+					if (decision == JOptionPane.YES_OPTION) {
+						
+						InterfazLogin vt = new InterfazLogin();
+						vt.setVisible(true);
+						dispose();
+						
+					}
+					
+				} else {
+					
+					InterfazDelete d = new InterfazDelete(username);
+					d.setVisible(true);
+					dispose();
+					
+				}
 
 			}
 		});
@@ -91,7 +111,7 @@ public class InterfazHome extends JFrame {
 							"Visualizar batallas", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
 					if (decision == JOptionPane.YES_OPTION) {
 						
-						InterfazVisualizarTodo vt = new InterfazVisualizarTodo(username);
+						InterfazVisualizarTodo vt = new InterfazVisualizarTodo(username, 1);
 						vt.setVisible(true);
 						dispose();
 						
@@ -99,7 +119,7 @@ public class InterfazHome extends JFrame {
 					
 				} else {
 					
-					InterfazVisualizar v = new InterfazVisualizar(username);
+					InterfazVisualizar v = new InterfazVisualizar(username, 1);
 					v.setVisible(true);
 					dispose();
 					
@@ -110,19 +130,8 @@ public class InterfazHome extends JFrame {
 		btnVisualizarBatallas.setForeground(Color.BLACK);
 		btnVisualizarBatallas.setFont(new Font("Monospaced", Font.BOLD, 12));
 		btnVisualizarBatallas.setBackground(Color.LIGHT_GRAY);
-		btnVisualizarBatallas.setBounds(35, 73, 236, 93);
+		btnVisualizarBatallas.setBounds(35, 73, 519, 93);
 		panel.add(btnVisualizarBatallas);
-
-		JButton btnPredicciones = new JButton("Predicciones");
-		btnPredicciones.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnPredicciones.setForeground(Color.BLACK);
-		btnPredicciones.setFont(new Font("Monospaced", Font.BOLD, 12));
-		btnPredicciones.setBackground(Color.LIGHT_GRAY);
-		btnPredicciones.setBounds(318, 73, 236, 93);
-		panel.add(btnPredicciones);
 
 		JTextArea textArea = new JTextArea();
 		textArea.setText("BatallasG");
@@ -158,9 +167,12 @@ public class InterfazHome extends JFrame {
 					try {
 						datos = Funciones.datosTotales(is);
 					} catch (SQLException e1) {}
-					InterfazDatosCuenta dc = new InterfazDatosCuenta(is, datos[0], datos[1]);
-					dc.setVisible(true);
-					dispose();
+					try {
+						InterfazDatosCuenta dc;
+						dc = new InterfazDatosCuenta(is, datos[0], datos[1]);
+						dc.setVisible(true);
+						dispose();
+					} catch (IOException e1) {}
 
 				}
 			}

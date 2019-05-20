@@ -27,7 +27,7 @@ public class InterfazVisualizar extends JFrame {
 	private JPanel contentPane;
 	private JTable tabla;
 	
-	public InterfazVisualizar(String username) {
+	public InterfazVisualizar(String username, int num) {
 		Conectar c = new Conectar();
 		c.Conectar();
 		
@@ -74,7 +74,7 @@ public class InterfazVisualizar extends JFrame {
 		JButton btnVerTodas = new JButton("Ver todas");
 		btnVerTodas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InterfazVisualizarTodo vt = new InterfazVisualizarTodo(username);
+				InterfazVisualizarTodo vt = new InterfazVisualizarTodo(username, num);
 				vt.setVisible(true);
 				dispose();
 			}

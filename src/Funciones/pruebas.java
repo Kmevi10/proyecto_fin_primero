@@ -1,15 +1,15 @@
 package Funciones;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class pruebas {
 
 	public static void main(String[] args) {
 
-		try {
-			String a = Funciones.takeToFile("src/Ficheros/RecordarClave.txt");
-			System.out.println(a);
-		} catch (IOException e) {}
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		System.out.println(df.toString());
 
 	}
 
