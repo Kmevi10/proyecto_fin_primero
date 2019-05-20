@@ -94,7 +94,7 @@ public class InterfazAñadir extends JFrame {
 		lblBatallasDe.setBounds(21, 11, 393, 67);
 		panel.add(lblBatallasDe);
 
-		textField = new JTextField();
+		textField = new JTextField("");
 		RestrictedTextField r1 = new RestrictedTextField(textField, "abcdefghijklmnñopqrstuvwxyz1234567890");
 		r1.setLimit(15);
 		textField.setBounds(116, 89, 119, 20);
@@ -174,15 +174,28 @@ public class InterfazAñadir extends JFrame {
 		JButton btnVerTodas = new JButton("A\u00F1adir Batalla");
 		btnVerTodas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String date = y.getSelectedItem() + "-" + m.getSelectedItem() + "-" + d.getSelectedItem();
-				try {
-					c.EjecutarUpdate(
-							"INSERT INTO `consultarbatallas`(`Usuario`, `Local`, `Visitante`, `Fecha`) VALUES ('"
-									+ username + "','" + textField.getText() + "','" + textField_1.getText() + "','"
-									+ date + "')");
-				} catch (SQLException e1) {
-					System.out.println("No se pudo ejecutar la cl\u00e1usula.");
+				if (!textField.getText().equals("") && !textField_1.getText().equals("") && !y.getSelectedItem().toString().equals("") && !m.getSelectedItem().toString().equals("") && !d.getSelectedItem().toString().equals("")) {
+					String date = y.getSelectedItem() + "-" + m.getSelectedItem() + "-" + d.getSelectedItem();
+					try {
+						c.EjecutarUpdate(
+								"INSERT INTO `consultarbatallas`(`Usuario`, `Local`, `Visitante`, `Fecha`) VALUES ('"
+										+ username + "','" + textField.getText() + "','" + textField_1.getText() + "','"
+										+ date + "')");
+						ImageIcon icon = new ImageIcon("src/Imagenes/OK.png");
+						int opc = JOptionPane.showConfirmDialog(null, "Su batalla se añadió correctamente.",
+								"Añadir Batalla", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+					} catch (SQLException e1) {
+						System.out.println("No se pudo ejecutar la cl\u00e1usula.");
+					}
+					InterfazAñadir a = new InterfazAñadir(username);
+					a.setVisible(true);
+					dispose();
+				} else {
+					ImageIcon icon = new ImageIcon("src/Imagenes/ERROR.png");
+					int opc = JOptionPane.showConfirmDialog(null, "No puede dejar casillas vac\u00edas, por favor, rellena todas y despu\u00e9s contin\u00fae.",
+							"Error", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
 				}
+				
 			}
 		});
 		btnVerTodas.setFont(new Font("Monospaced", Font.BOLD, 11));

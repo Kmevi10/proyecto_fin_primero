@@ -52,7 +52,7 @@ public class InterfazVisualizarTodo extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (username != null) {
 
-					InterfazVisualizar v = new InterfazVisualizar(username, num);
+					InterfazVisualizar v = new InterfazVisualizar(username,num);
 					v.setVisible(true);
 					dispose();
 					
@@ -67,61 +67,26 @@ public class InterfazVisualizarTodo extends JFrame {
 		});
 		btnNewButton.setFont(new Font("Monospaced", Font.BOLD, 11));
 		btnNewButton.setBackground(Color.LIGHT_GRAY);
-		btnNewButton.setBounds(445, 316, 95, 30);
+		btnNewButton.setBounds(194, 316, 216, 30);
 		panel.add(btnNewButton);
-
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(99, 320, 199, 22);
-		comboBox.addItem("Fecha más pr\u00f3xima");
-		comboBox.addItem("Fecha menos pr\u00f3xima");
-		panel.add(comboBox);
 		
 		JLabel lblTodasLasBatallas = new JLabel("Todas las batallas");
 		lblTodasLasBatallas.setFont(new Font("Monospaced", Font.BOLD, 16));
 		lblTodasLasBatallas.setForeground(new Color(51,51,51));
 		lblTodasLasBatallas.setBounds(194, 11, 216, 22);
 		panel.add(lblTodasLasBatallas);
+		String[] local = c.EjecutarSentencia("SELECT local FROM consultarbatallas ORDER BY consultarbatallas.Fecha ASC", "local");
+		String[] visitante = c.EjecutarSentencia("SELECT visitante FROM consultarbatallas ORDER BY consultarbatallas.Fecha ASC", "visitante");
+		String[] fecha = c.EjecutarSentencia("SELECT fecha FROM consultarbatallas ORDER BY consultarbatallas.Fecha ASC", "fecha");
 		modelo.addColumn("Local");
 		modelo.addColumn("Visitante");
 		modelo.addColumn("Fecha");
-		comboBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				String order;
-				for (int i = 0; i < c.EjecutarSentencia("SELECT local FROM consultarbatallas", "local").length; i++) {
-					modelo.removeRow(i);
-				}
-				if (comboBox.getSelectedIndex() == 0) {
-					order = "ORDER BY `consultarbatallas`.`Fecha` ASC";
-					String[] local = c.EjecutarSentencia("SELECT local FROM consultarbatallas " + order, "local");
-					String[] visitante = c.EjecutarSentencia("SELECT visitante FROM consultarbatallas " + order, "visitante");
-					String[] fecha = c.EjecutarSentencia("SELECT fecha FROM consultarbatallas " + order, "fecha");
-					for (int i = 0; i < local.length; i++) {
-						
-						String[] fila = {local[i], visitante[i], fecha[i]};
-						modelo.addRow(fila);
-						
-					}
-				} else {
-					order = "ORDER BY `consultarbatallas`.`Fecha` DESC";
-					String[] local = c.EjecutarSentencia("SELECT local FROM consultarbatallas " + order, "local");
-					String[] visitante = c.EjecutarSentencia("SELECT visitante FROM consultarbatallas " + order, "visitante");
-					String[] fecha = c.EjecutarSentencia("SELECT fecha FROM consultarbatallas " + order, "fecha");
-					for (int i = 0; i < local.length; i++) {
-						
-						String[] fila = {local[i], visitante[i], fecha[i]};
-						modelo.addRow(fila);
-						
-					}
-				}
-			}
-		});
-		
-		
-		JLabel lblFiltrar = new JLabel("Filtrar:");
-		lblFiltrar.setForeground(new Color(51, 51, 51));
-		lblFiltrar.setFont(new Font("Monospaced", Font.BOLD, 13));
-		lblFiltrar.setBounds(21, 316, 81, 22);
-		panel.add(lblFiltrar);
+		for (int i = 0; i < local.length; i++) {
+			
+			String[] fila = {local[i], visitante[i], fecha[i]};
+			modelo.addRow(fila);
+			
+		}
 		JScrollPane scroll = new JScrollPane(tabla);
 		scroll.setBounds(21, 44, 519, 261);
 		panel.add(scroll);

@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.sql.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class InterfazHome extends JFrame {
 
@@ -30,14 +32,20 @@ public class InterfazHome extends JFrame {
 		setContentPane(contentPane);
 
 		JButton btnNewButton = new JButton("A\u00F1adir Batalla");
+		if (username == null) {
+			btnNewButton.setEnabled(false);
+		} else {
+			btnNewButton.setEnabled(true);
+		}
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				if (username == null) {
+					
 					ImageIcon icon = new ImageIcon("src/Imagenes/INFO.png");
 					int decision = JOptionPane.showConfirmDialog(null,
 							"Sin iniciar sesión no podrá añadir\nbatallas ¿desea iniciar sesión?",
-							"Visualizar batallas", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+							"A\u00F1adir Batalla", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
 					if (decision == JOptionPane.YES_OPTION) {
 						
 						InterfazLogin l = new InterfazLogin();
@@ -67,33 +75,23 @@ public class InterfazHome extends JFrame {
 		panel.add(btnNewButton);
 
 		JButton btnRegistrarte = new JButton("Borrar Batalla");
-		btnRegistrarte.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				if (username == null) {
-					
-					ImageIcon icon = new ImageIcon("src/Imagenes/INFO.png");
-					int decision = JOptionPane.showConfirmDialog(null,
-							"Sin estar registrado no podremos dejarle borrar\nbatallas, ¿desea iniciar sesi\u00f3n?",
-							"Visualizar batallas", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
-					if (decision == JOptionPane.YES_OPTION) {
+		if (username == null) {
+			btnRegistrarte.setEnabled(false);
+		} else {
+			btnRegistrarte.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (username != null) {
 						
-						InterfazLogin vt = new InterfazLogin();
-						vt.setVisible(true);
+						InterfazDelete d = new InterfazDelete(username);
+						d.setVisible(true);
 						dispose();
 						
 					}
-					
-				} else {
-					
-					InterfazDelete d = new InterfazDelete(username);
-					d.setVisible(true);
-					dispose();
-					
 				}
-
-			}
-		});
+			});
+			btnRegistrarte.setEnabled(true);
+		}
 		btnRegistrarte.setFont(new Font("Monospaced", Font.BOLD, 12));
 		btnRegistrarte.setBackground(Color.LIGHT_GRAY);
 		btnRegistrarte.setForeground(Color.BLACK);
