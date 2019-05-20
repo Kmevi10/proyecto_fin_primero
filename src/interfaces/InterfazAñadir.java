@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.time.Year;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -12,21 +15,26 @@ import javax.swing.table.*;
 import Atxy2k.CustomTextField.RestrictedTextField;
 import ConexionBBDD.Conectar;
 import Funciones.Funciones;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class InterfazAñadir extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
-	private JTextField textField_2;
 
 	public InterfazAñadir(String username) {
 
+		Calendar fecha = new GregorianCalendar();
+		int anio = fecha.get(Calendar.YEAR);
+		int mes = fecha.get(Calendar.MONTH) + 1;
+		int dia = fecha.get(Calendar.DAY_OF_MONTH);
 		Conectar c = new Conectar();
 		c.Conectar();
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 371);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -49,7 +57,7 @@ public class InterfazAñadir extends JFrame {
 		});
 		btnNewButton.setFont(new Font("Monospaced", Font.BOLD, 11));
 		btnNewButton.setBackground(Color.LIGHT_GRAY);
-		btnNewButton.setBounds(21, 210, 153, 30);
+		btnNewButton.setBounds(21, 281, 153, 30);
 		panel.add(btnNewButton);
 
 		JTextArea txtrLocal = new JTextArea();
@@ -70,20 +78,8 @@ public class InterfazAñadir extends JFrame {
 		txtrVisitante.setBounds(39, 122, 88, 22);
 		panel.add(txtrVisitante);
 
-		JLabel lblFechaInvlidaPor = new JLabel("Fecha inv\u00E1lida, por favor inserte");
-		lblFechaInvlidaPor.setForeground(Color.RED);
-		lblFechaInvlidaPor.setBounds(222, 154, 177, 22);
-		lblFechaInvlidaPor.setVisible(false);
-		panel.add(lblFechaInvlidaPor);
-		
-		JLabel lblUnaVlida = new JLabel("una v\u00E1lida");
-		lblUnaVlida.setForeground(Color.RED);
-		lblUnaVlida.setBounds(222, 171, 88, 14);
-		lblUnaVlida.setVisible(false);
-		panel.add(lblUnaVlida);
-		
 		JTextArea txtrFecha = new JTextArea();
-		txtrFecha.setText("Fecha");
+		txtrFecha.setText("Fecha:");
 		txtrFecha.setForeground(Color.DARK_GRAY);
 		txtrFecha.setFont(new Font("Miriam Mono CLM", Font.BOLD, 13));
 		txtrFecha.setEditable(false);
@@ -91,69 +87,109 @@ public class InterfazAñadir extends JFrame {
 		txtrFecha.setBounds(39, 155, 67, 22);
 		panel.add(txtrFecha);
 
-		JButton btnVerTodas = new JButton("A\u00F1adir Batalla");
-		btnVerTodas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (Funciones.requisitosFecha(textField_2.getText())) {
-					lblUnaVlida.setVisible(false);
-					lblFechaInvlidaPor.setVisible(false);
-					try {
-						c.EjecutarUpdate(
-								"INSERT INTO `consultarbatallas`(`Usuario`, `Local`, `Visitante`, `Fecha`) VALUES ('"
-										+ username + "','" + textField.getText() + "','" + textField_1.getText() + "','"
-										+ textField_2.getText() + "')");
-					} catch (SQLException e1) {
-						ImageIcon icon = new ImageIcon("src/Imagenes/ALERT.png");
-						int decision = JOptionPane.showConfirmDialog(null,
-								"Upss!! Creo que hubo un fallo al\nintentar añadir la batalla, int\u00e9ntelo\nde nuevo",
-								"Visualizar batallas", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
-						if (decision == JOptionPane.YES_OPTION) {
-							
-							InterfazVisualizarTodo vt = new InterfazVisualizarTodo(username);
-							vt.setVisible(true);
-							dispose();
-							
-						}
-					}
-				} else {
-					lblUnaVlida.setVisible(true);
-					lblFechaInvlidaPor.setVisible(true);
-				}
-			}
-		});
-		btnVerTodas.setFont(new Font("Monospaced", Font.BOLD, 11));
-		btnVerTodas.setBackground(Color.LIGHT_GRAY);
-		btnVerTodas.setBounds(246, 210, 153, 30);
-		panel.add(btnVerTodas);
-
 		JLabel lblBatallasDe = new JLabel("A\u00F1adir batalla a la cuenta " + username);
+		lblBatallasDe.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBatallasDe.setForeground(new Color(51, 51, 51));
-		lblBatallasDe.setFont(new Font("Monospaced", Font.BOLD, 16));
-		lblBatallasDe.setBounds(21, 35, 393, 22);
+		lblBatallasDe.setFont(new Font("Segoe Print", Font.BOLD, 19));
+		lblBatallasDe.setBounds(21, 11, 393, 67);
 		panel.add(lblBatallasDe);
 
 		textField = new JTextField();
 		RestrictedTextField r1 = new RestrictedTextField(textField, "abcdefghijklmnñopqrstuvwxyz1234567890");
-        r1.setLimit(15);
+		r1.setLimit(15);
 		textField.setBounds(116, 89, 119, 20);
 		panel.add(textField);
 		textField.setColumns(10);
 
 		textField_1 = new JTextField();
 		RestrictedTextField r2 = new RestrictedTextField(textField_1, "abcdefghijklmnñopqrstuvwxyz1234567890");
-        r2.setLimit(15);
+		r2.setLimit(15);
 		textField_1.setColumns(10);
 		textField_1.setBounds(137, 122, 119, 20);
 		panel.add(textField_1);
+		r2.setLimit(10);
 
-		textField_2 = new JTextField();
-		RestrictedTextField r3 = new RestrictedTextField(textField_2, "-1234567890");
-        r3.setLimit(10);
-		textField_2.setToolTipText("aaaa-mm-dd");
-		textField_2.setBounds(116, 155, 96, 20);
-		panel.add(textField_2);
-		textField_2.setColumns(10);
-		
+		JLabel lblAo = new JLabel("A\u00F1o");
+		lblAo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAo.setBounds(21, 188, 101, 14);
+		panel.add(lblAo);
+
+		JLabel lblMes = new JLabel("Mes");
+		lblMes.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMes.setBounds(165, 188, 101, 14);
+		panel.add(lblMes);
+
+		JLabel lblDa = new JLabel("D\u00EDa");
+		lblDa.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDa.setBounds(313, 188, 101, 14);
+		panel.add(lblDa);
+
+		JComboBox y = new JComboBox();
+		y.addItem("");
+		y.setBounds(21, 213, 101, 22);
+		panel.add(y);
+
+		JComboBox m = new JComboBox();
+		m.setEnabled(false);
+		m.setBounds(165, 213, 101, 22);
+		panel.add(m);
+
+		JComboBox d = new JComboBox();
+		d.setEnabled(false);
+		d.setBounds(313, 213, 101, 22);
+		panel.add(d);
+
+		for (int i = anio; i < anio + 10; i++) {
+			y.addItem(i);
+		}
+		y.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					if (y.getSelectedIndex() > 0) {
+						m.setModel(new DefaultComboBoxModel(
+								Funciones.getMeses(anio, y.getSelectedItem().toString(), mes)));
+						m.setEnabled(true);
+					} else {
+						m.setEnabled(false);
+					}
+				}
+			}
+		});
+		m.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.DESELECTED) {
+					if (m.getSelectedIndex() > 0) {
+						if (m.getSelectedItem().toString() != null && y.getSelectedItem().toString() != null) {
+							d.setModel(new DefaultComboBoxModel(
+									Funciones.getDias(m.getSelectedItem().toString(), y.getSelectedItem().toString())));
+							d.setEnabled(true);
+						} else {
+							d.setEnabled(false);
+						}
+					}
+				}
+			}
+		});
+
+		JButton btnVerTodas = new JButton("A\u00F1adir Batalla");
+		btnVerTodas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String date = y.getSelectedItem() + "-" + m.getSelectedItem() + "-" + d.getSelectedItem();
+				try {
+					c.EjecutarUpdate(
+							"INSERT INTO `consultarbatallas`(`Usuario`, `Local`, `Visitante`, `Fecha`) VALUES ('"
+									+ username + "','" + textField.getText() + "','" + textField_1.getText() + "','"
+									+ date + "')");
+				} catch (SQLException e1) {
+					System.out.println("No se pudo ejecutar la cl\u00e1usula.");
+				}
+			}
+		});
+		btnVerTodas.setFont(new Font("Monospaced", Font.BOLD, 11));
+		btnVerTodas.setBackground(Color.LIGHT_GRAY);
+		btnVerTodas.setBounds(261, 281, 153, 30);
+		panel.add(btnVerTodas);
 
 	}
+
 }

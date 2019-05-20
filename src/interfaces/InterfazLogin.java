@@ -14,11 +14,13 @@ public class InterfazLogin extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
-
+	private String t;
+	
 	public InterfazLogin() {
 
 		String a = "";
 		String b = "";
+		t = "";
 		String du = "src/Ficheros/RecordarUsuario.txt";
 		String dc = "src/Ficheros/RecordarClave.txt";
 		Conectar c = new Conectar();
@@ -131,9 +133,10 @@ public class InterfazLogin extends JFrame {
 								Funciones.savedOnFile(textField.getText(), du);
 								Funciones.savedOnFile(passwordField.getText(), dc);
 							} catch (IOException e1) {}
+							t = "\nAutom\u00e1ticamente se guardar\u00e1 esta cuenta y contraseña\ny se borrar\u00e1 la anteriormente guardada.";
 						}
 						JOptionPane.showMessageDialog(null,
-								"Enhora buena " + textField.getText() + ", conseguiste entrar en tu cuenta.", "Login",
+								"Enhora buena " + textField.getText() + ", conseguiste entrar en tu cuenta." + t, "Login",
 								JOptionPane.INFORMATION_MESSAGE);
 						dispose();
 						InterfazHome h = new InterfazHome(textField.getText());
