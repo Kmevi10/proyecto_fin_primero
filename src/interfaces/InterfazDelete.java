@@ -12,16 +12,19 @@ import ConexionBBDD.Conectar;
 import Funciones.Funciones;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
+import java.sql.SQLException;
 import java.awt.event.ItemEvent;
 
 public class InterfazDelete extends JFrame {
@@ -86,6 +89,7 @@ public class InterfazDelete extends JFrame {
 					visitante.setModel(new DefaultComboBoxModel(
 							Funciones.getVisitantes(local.getSelectedItem().toString(), username)));
 					visitante.setEnabled(true);
+					date.setEnabled(false);
 				} else {
 					visitante.setEnabled(false);
 				}
@@ -94,8 +98,8 @@ public class InterfazDelete extends JFrame {
 		visitante.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (visitante.getSelectedIndex() > 0) {
-					date.setModel(new DefaultComboBoxModel(
-							Funciones.getFechas(local.getSelectedItem().toString(), visitante.getSelectedItem().toString(), username)));
+					date.setModel(new DefaultComboBoxModel(Funciones.getFechas(local.getSelectedItem().toString(),
+							visitante.getSelectedItem().toString(), username)));
 					date.setEnabled(true);
 				} else {
 					date.setEnabled(false);
@@ -130,17 +134,6 @@ public class InterfazDelete extends JFrame {
 		btnVolver.setBounds(10, 335, 180, 30);
 		panel.add(btnVolver);
 
-		JButton btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnConfirmar.setForeground(Color.BLACK);
-		btnConfirmar.setFont(new Font("Monospaced", Font.PLAIN, 11));
-		btnConfirmar.setBackground(Color.LIGHT_GRAY);
-		btnConfirmar.setBounds(308, 335, 180, 30);
-		panel.add(btnConfirmar);
-
 		JButton button = new JButton("Ver batallas");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -154,6 +147,40 @@ public class InterfazDelete extends JFrame {
 		button.setBackground(Color.LIGHT_GRAY);
 		button.setBounds(360, 13, 128, 30);
 		panel.add(button);
+
+		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!local.getSelectedItem().equals("") && !visitante.getSelectedItem().equals("")
+						&& !date.getSelectedItem().equals("")) {
+					ImageIcon icon = new ImageIcon("src/Imagenes/OK.png");
+					int opc = JOptionPane.showConfirmDialog(null, "¿Est\u00e1 seguro de eleminar esa batalla?",
+							"Delete", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+					if (opc == JOptionPane.YES_OPTION) {
+						try {
+							Conectar.EjecutarUpdate("DELETE FROM `consultarbatallas` WHERE Usuario LIKE ('" + username
+									+ "') AND local LIKE ('" + local.getSelectedItem().toString()
+									+ "') AND visitante LIKE ('" + visitante.getSelectedItem().toString()
+									+ "') AND fecha LIKE ('" + date.getSelectedItem().toString() + "')");
+						} catch (SQLException e1) {
+						}
+						InterfazDelete d = new InterfazDelete(username);
+						d.setVisible(true);
+						dispose();
+					}
+				} else {
+					ImageIcon icon = new ImageIcon("src/Imagenes/ERROR.png");
+					JOptionPane.showConfirmDialog(null,
+							"No puede dejar casillas vac\u00edas, por favor, rellena todas y despu\u00e9s contin\u00fae.", "Error",
+							JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+				}
+			}
+		});
+		btnConfirmar.setForeground(Color.BLACK);
+		btnConfirmar.setFont(new Font("Monospaced", Font.PLAIN, 11));
+		btnConfirmar.setBackground(Color.LIGHT_GRAY);
+		btnConfirmar.setBounds(308, 335, 180, 30);
+		panel.add(btnConfirmar);
 
 	}
 }

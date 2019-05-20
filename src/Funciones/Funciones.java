@@ -229,10 +229,10 @@ public class Funciones {
 				+ local + "') AND Usuario LIKE ('" + user + "')", "").length + 1];
 		for (int i = 0; i < r.length; i++) {
 			if (i == 0) {
-				r[i] = "";
+				r[0] = "";
 			} else {
 				r[i] = c.EjecutarSentencia("SELECT visitante FROM consultarbatallas WHERE local LIKE ('" + local
-						+ "') AND Usuario LIKE ('" + user + "')", "")[i - 1];
+						+ "') AND Usuario LIKE ('" + user + "')", "visitante")[i - 1];
 			}
 		}
 		return r;
@@ -245,11 +245,11 @@ public class Funciones {
 				+ "') AND Usuario LIKE ('" + username + "') AND Visitante LIKE ('" + visitante + "')", "").length + 1];
 		for (int i = 0; i < r.length; i++) {
 			if (i == 0) {
-				r[i] = "";
+				r[0] = "";
 			} else {
 				r[i] = c.EjecutarSentencia("SELECT fecha FROM consultarbatallas WHERE local LIKE ('" + local
 						+ "') AND Usuario LIKE ('" + username + "') AND Visitante LIKE ('" + visitante + "')",
-						"")[i - 1];
+						"fecha")[i - 1];
 			}
 		}
 		return r;
