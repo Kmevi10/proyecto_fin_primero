@@ -167,61 +167,39 @@ public class Funciones {
 
 	}
 
-	public static boolean requisitosFecha(String fecha) {
-		try {
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			df.setLenient(false);
-			df.parse(fecha);
-			return fechaMayor(fecha);
-		} catch (ParseException e) {
-			return false;
-		}
-		
-	}
-	
-	public static boolean fechaMayor(String date) {
-		
-		String dateNow = "" + LocalDate.now(ZoneId.of("Europe/Paris"));
-		int year = simplificarFecha(date,1);
-		int yearNow = simplificarFecha(dateNow, 1);
-		if (year >= yearNow) {
-			if (year > yearNow) {
-				return true;
-			} else {
-				int month = simplificarFecha(date, 2);
-				if (month < 1 || month > 12) {
-					return false;
-				}
-				int diaMax = diaMaximoMes(month, year);
-				int monthNow = simplificarFecha(dateNow, 2);
-				if (month >= monthNow) {
-					if (month > monthNow) {
-						return true;
-					} else {
-						int day = simplificarFecha(date, 3);
-						if (day < 1 || day > diaMax) {
-							return false;
-						}
-						int dayNow = simplificarFecha(dateNow, 3);
-						if (day >= dayNow) {
-								return true;
-						} else {
-							return false;
-						}
-					}
-				} else {
-					return false;
-				}
+	public static String[] getMeses(int y, String year, int m) {
+
+		String[] devolver = { "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+		if (y == Integer.parseInt(year)) {
+			for (int i = m; i < 13; i++) {
+				devolver[i - m + 1] = "" + i;
 			}
 		} else {
-			return false;
+			for (int i = 1; i < 13; i++) {
+				devolver[i] = "" + i;
+			}
 		}
+		int c = 1;
+		for (int i = 1; devolver[i] != ""; i++) {
+			c++;
+		}
+		String[] r = new String[c];
+		for (int i = 0; i < c; i++) {
+			r[i] = devolver[i];
+		}
+		return r;
 	}
-	
-	private static int diaMaximoMes(int month, int year) {
+
+	public static String[] getDias(String m, String y) {
+
+		Calendar fecha = new GregorianCalendar();
+		int anio = fecha.get(Calendar.YEAR);
+		int mes = fecha.get(Calendar.MONTH) + 1;
+		int dia = fecha.get(Calendar.DAY_OF_MONTH);
 		int dias;
-		
-		switch(month) {
+		int month = Integer.parseInt(m);
+		int year = Integer.parseInt(y);
+		switch (month) {
 		case 1:
 		case 3:
 		case 5:
@@ -239,23 +217,27 @@ public class Funciones {
 			break;
 		}
 		if ((year % 4 == 0 && year % 100 != 0 || year % 400 == 0) && month == 2) {
-			dias ++;
+			dias++;
 		}
-		return dias;
-	}
-
-	public static int simplificarFecha(String date, int ymd) {
-		String devolver = "";
-		int control = 0;
-		for (int i = 0; i < ymd; i++) {
-			devolver = "";
-			while (date.charAt(control) != '-' || control < date.length() - 1) {
-				devolver += date.charAt(control);
-				control++;
+		String[] r = new String[dias + 1];
+		if (m.equals(mes) && y.equals(anio)) {
+			for (int i = dias - 1; i < dias + 1; i++) {
+				if (i == dias - 1) {
+					r[0] = "";
+				} else {
+					r[i - dias + 1] = "" + i;
+				}
 			}
-			control++;
+		} else {
+			for (int i = 0; i < r.length; i++) {
+				if (i == 0) {
+					r[i] = "";
+				} else {
+					r[i] = "" + i;
+				}
+			}
 		}
-		return Integer.parseInt(devolver);
+		return r;
 	}
 
 	public static void savedOnFile(String text, String directorio) throws IOException {
@@ -263,9 +245,9 @@ public class Funciones {
 		FileWriter writer = new FileWriter(directorio);
 		writer.write(text);
 		writer.close();
-		
+
 	}
-	
+
 	public static String takeToFile(String directorio) throws IOException {
 
 		String text = "";
@@ -275,7 +257,50 @@ public class Funciones {
 			text += q.nextLine();
 		}
 		return text;
-		
+
+	}
+
+	public static boolean existeEnFichero(String username) throws IOException {
+
+		if (username.equals(Funciones.takeToFile("src/Ficheros/RecordarUsuario.txt"))) {
+			return false;
+		} else {
+			return true;
+		}
+
+	}
+
+	public static String[] getVisitantes(String local, String user) {
+		Conectar c = new Conectar();
+		c.Conectar();
+		String[] r = new String[c.EjecutarSentencia("SELECT visitante FROM consultarbatallas WHERE local LIKE ('"
+				+ local + "') AND Usuario LIKE ('" + user + "')", "").length + 1];
+		for (int i = 0; i < r.length; i++) {
+			if (i == 0) {
+				r[0] = "";
+			} else {
+				r[i] = c.EjecutarSentencia("SELECT visitante FROM consultarbatallas WHERE local LIKE ('" + local
+						+ "') AND Usuario LIKE ('" + user + "')", "visitante")[i - 1];
+			}
+		}
+		return r;
+	}
+
+	public static String[] getFechas(String local, String visitante, String username) {
+		Conectar c = new Conectar();
+		c.Conectar();
+		String[] r = new String[c.EjecutarSentencia("SELECT fecha FROM consultarbatallas WHERE local LIKE ('" + local
+				+ "') AND Usuario LIKE ('" + username + "') AND Visitante LIKE ('" + visitante + "')", "").length + 1];
+		for (int i = 0; i < r.length; i++) {
+			if (i == 0) {
+				r[0] = "";
+			} else {
+				r[i] = c.EjecutarSentencia("SELECT fecha FROM consultarbatallas WHERE local LIKE ('" + local
+						+ "') AND Usuario LIKE ('" + username + "') AND Visitante LIKE ('" + visitante + "')",
+						"fecha")[i - 1];
+			}
+		}
+		return r;
 	}
 >>>>>>> develop
 

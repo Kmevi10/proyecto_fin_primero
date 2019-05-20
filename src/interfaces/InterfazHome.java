@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.sql.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class InterfazHome extends JFrame {
 
@@ -30,14 +32,20 @@ public class InterfazHome extends JFrame {
 		setContentPane(contentPane);
 
 		JButton btnNewButton = new JButton("A\u00F1adir Batalla");
+		if (username == null) {
+			btnNewButton.setEnabled(false);
+		} else {
+			btnNewButton.setEnabled(true);
+		}
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				if (username == null) {
+					
 					ImageIcon icon = new ImageIcon("src/Imagenes/INFO.png");
 					int decision = JOptionPane.showConfirmDialog(null,
 							"Sin iniciar sesión no podrá añadir\nbatallas ¿desea iniciar sesión?",
-							"Visualizar batallas", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+							"A\u00F1adir Batalla", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
 					if (decision == JOptionPane.YES_OPTION) {
 						
 						InterfazLogin l = new InterfazLogin();
@@ -67,13 +75,23 @@ public class InterfazHome extends JFrame {
 		panel.add(btnNewButton);
 
 		JButton btnRegistrarte = new JButton("Borrar Batalla");
-		btnRegistrarte.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				// if (no se ha registrado); InterfazLogin.setvisible;
-
-			}
-		});
+		if (username == null) {
+			btnRegistrarte.setEnabled(false);
+		} else {
+			btnRegistrarte.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (username != null) {
+						
+						InterfazDelete d = new InterfazDelete(username);
+						d.setVisible(true);
+						dispose();
+						
+					}
+				}
+			});
+			btnRegistrarte.setEnabled(true);
+		}
 		btnRegistrarte.setFont(new Font("Monospaced", Font.BOLD, 12));
 		btnRegistrarte.setBackground(Color.LIGHT_GRAY);
 		btnRegistrarte.setForeground(Color.BLACK);
@@ -91,7 +109,7 @@ public class InterfazHome extends JFrame {
 							"Visualizar batallas", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
 					if (decision == JOptionPane.YES_OPTION) {
 						
-						InterfazVisualizarTodo vt = new InterfazVisualizarTodo(username);
+						InterfazVisualizarTodo vt = new InterfazVisualizarTodo(username, 1);
 						vt.setVisible(true);
 						dispose();
 						
@@ -99,7 +117,7 @@ public class InterfazHome extends JFrame {
 					
 				} else {
 					
-					InterfazVisualizar v = new InterfazVisualizar(username);
+					InterfazVisualizar v = new InterfazVisualizar(username, 1);
 					v.setVisible(true);
 					dispose();
 					
@@ -110,19 +128,8 @@ public class InterfazHome extends JFrame {
 		btnVisualizarBatallas.setForeground(Color.BLACK);
 		btnVisualizarBatallas.setFont(new Font("Monospaced", Font.BOLD, 12));
 		btnVisualizarBatallas.setBackground(Color.LIGHT_GRAY);
-		btnVisualizarBatallas.setBounds(35, 73, 236, 93);
+		btnVisualizarBatallas.setBounds(35, 73, 519, 93);
 		panel.add(btnVisualizarBatallas);
-
-		JButton btnPredicciones = new JButton("Predicciones");
-		btnPredicciones.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnPredicciones.setForeground(Color.BLACK);
-		btnPredicciones.setFont(new Font("Monospaced", Font.BOLD, 12));
-		btnPredicciones.setBackground(Color.LIGHT_GRAY);
-		btnPredicciones.setBounds(318, 73, 236, 93);
-		panel.add(btnPredicciones);
 
 		JTextArea textArea = new JTextArea();
 		textArea.setText("BatallasG");
@@ -158,9 +165,12 @@ public class InterfazHome extends JFrame {
 					try {
 						datos = Funciones.datosTotales(is);
 					} catch (SQLException e1) {}
-					InterfazDatosCuenta dc = new InterfazDatosCuenta(is, datos[0], datos[1]);
-					dc.setVisible(true);
-					dispose();
+					try {
+						InterfazDatosCuenta dc;
+						dc = new InterfazDatosCuenta(is, datos[0], datos[1]);
+						dc.setVisible(true);
+						dispose();
+					} catch (IOException e1) {}
 
 				}
 			}

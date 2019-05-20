@@ -9,18 +9,18 @@ import javax.swing.border.*;
 import javax.swing.table.*;
 
 import ConexionBBDD.Conectar;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class InterfazVisualizarTodo extends JFrame {
 
 	private JPanel contentPane;
 	private JTable tabla;
 	private JPanel panel;
-	private JTextField textField;
-	private JButton btnAceptar;
 	private Conectar c;
 	private DefaultTableModel modelo;
 
-	public InterfazVisualizarTodo(String username) {
+	public InterfazVisualizarTodo(String username, int num) {
 		
 		c = new Conectar();
 		c.Conectar();
@@ -52,7 +52,7 @@ public class InterfazVisualizarTodo extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (username != null) {
 
-					InterfazVisualizar v = new InterfazVisualizar(username);
+					InterfazVisualizar v = new InterfazVisualizar(username,num);
 					v.setVisible(true);
 					dispose();
 					
@@ -67,7 +67,7 @@ public class InterfazVisualizarTodo extends JFrame {
 		});
 		btnNewButton.setFont(new Font("Monospaced", Font.BOLD, 11));
 		btnNewButton.setBackground(Color.LIGHT_GRAY);
-		btnNewButton.setBounds(445, 316, 95, 30);
+		btnNewButton.setBounds(194, 316, 216, 30);
 		panel.add(btnNewButton);
 		
 		JLabel lblTodasLasBatallas = new JLabel("Todas las batallas");
@@ -75,9 +75,9 @@ public class InterfazVisualizarTodo extends JFrame {
 		lblTodasLasBatallas.setForeground(new Color(51,51,51));
 		lblTodasLasBatallas.setBounds(194, 11, 216, 22);
 		panel.add(lblTodasLasBatallas);
-		String[] local = c.EjecutarSentencia("SELECT local FROM consultarbatallas", "local");
-		String[] visitante = c.EjecutarSentencia("SELECT visitante FROM consultarbatallas", "visitante");
-		String[] fecha = c.EjecutarSentencia("SELECT fecha FROM consultarbatallas", "fecha");
+		String[] local = c.EjecutarSentencia("SELECT local FROM consultarbatallas ORDER BY consultarbatallas.Fecha ASC", "local");
+		String[] visitante = c.EjecutarSentencia("SELECT visitante FROM consultarbatallas ORDER BY consultarbatallas.Fecha ASC", "visitante");
+		String[] fecha = c.EjecutarSentencia("SELECT fecha FROM consultarbatallas ORDER BY consultarbatallas.Fecha ASC", "fecha");
 		modelo.addColumn("Local");
 		modelo.addColumn("Visitante");
 		modelo.addColumn("Fecha");
@@ -92,55 +92,6 @@ public class InterfazVisualizarTodo extends JFrame {
 		panel.add(scroll);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				myBox(comboBox);
-			}
-		});
-		comboBox.setBounds(88, 320, 108, 22);
-		comboBox.addItem("Todas");
-		comboBox.addItem("Hoy");
-		comboBox.addItem("Mes que viene");
-		comboBox.addItem("D\u00eda");
-		panel.add(comboBox);
-		
-		JLabel lblFiltrar = new JLabel("Filtrar:");
-		lblFiltrar.setForeground(new Color(51, 51, 51));
-		lblFiltrar.setFont(new Font("Monospaced", Font.BOLD, 13));
-		lblFiltrar.setBounds(21, 316, 81, 22);
-		panel.add(lblFiltrar);
-		
-		textField = new JTextField();
-		textField.setBounds(206, 321, 122, 20);
-		textField.setVisible(false);
-		panel.add(textField);
-		textField.setColumns(10);
-		
-		btnAceptar = new JButton("Aceptar");
-		btnAceptar.setVisible(false);
-		btnAceptar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnAceptar.setFont(new Font("Monospaced", Font.BOLD, 11));
-		btnAceptar.setBackground(Color.LIGHT_GRAY);
-		btnAceptar.setBounds(338, 316, 95, 30);
-		panel.add(btnAceptar);
-		
 	}
-	
-	protected void myBox(JComboBox comboBox) {
-		
-		try {
-			textField.setVisible(false);
-			btnAceptar.setVisible(false);
-			if (comboBox.getSelectedItem().equals("D\u00eda")) {
-				textField.setVisible(true);
-				btnAceptar.setVisible(true);
-			} 
-		} catch (Exception e) {}
-		
-    }
 
 }

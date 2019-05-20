@@ -21,18 +21,19 @@ import javax.swing.table.DefaultTableModel;
 import ConexionBBDD.Conectar;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 public class InterfazVisualizar extends JFrame {
 
 	private JPanel contentPane;
 	private JTable tabla;
 	
-	public InterfazVisualizar(String username) {
+	public InterfazVisualizar(String username, int num) {
 		Conectar c = new Conectar();
 		c.Conectar();
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 406);
+		setBounds(100, 100, 617, 406);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -55,37 +56,45 @@ public class InterfazVisualizar extends JFrame {
 		JButton btnNewButton = new JButton("Volver");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InterfazHome h = new InterfazHome(username);
-				h.setVisible(true);
-				dispose();
+				if (num == 1) {
+					InterfazHome h = new InterfazHome(username);
+					h.setVisible(true);
+					dispose();
+				} else {
+					InterfazDelete d = new InterfazDelete(username);
+					d.setVisible(true);
+					dispose();
+				}
+					
 			}
 		});
 		btnNewButton.setFont(new Font("Monospaced", Font.BOLD, 11));
 		btnNewButton.setBackground(Color.LIGHT_GRAY);
-		btnNewButton.setBounds(21, 316, 153, 30);
+		btnNewButton.setBounds(21, 316, 227, 30);
 		panel.add(btnNewButton);
 		
 		JLabel lblTodasLasBatallas = new JLabel("Batallas de " + username + ":");
+		lblTodasLasBatallas.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTodasLasBatallas.setFont(new Font("Monospaced", Font.BOLD, 16));
 		lblTodasLasBatallas.setForeground(new Color(51, 51, 51));
-		lblTodasLasBatallas.setBounds(94, 11, 268, 22);
+		lblTodasLasBatallas.setBounds(28, 11, 553, 22);
 		panel.add(lblTodasLasBatallas);
 		
 		JButton btnVerTodas = new JButton("Ver todas");
 		btnVerTodas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InterfazVisualizarTodo vt = new InterfazVisualizarTodo(username);
+				InterfazVisualizarTodo vt = new InterfazVisualizarTodo(username, num);
 				vt.setVisible(true);
 				dispose();
 			}
 		});
 		btnVerTodas.setFont(new Font("Monospaced", Font.BOLD, 11));
 		btnVerTodas.setBackground(Color.LIGHT_GRAY);
-		btnVerTodas.setBounds(261, 316, 153, 30);
+		btnVerTodas.setBounds(344, 316, 224, 30);
 		panel.add(btnVerTodas);
-		String[] local = c.EjecutarSentencia("SELECT local FROM consultarbatallas WHERE Usuario LIKE ('" + username + "')", "local");
-		String[] visitante = c.EjecutarSentencia("SELECT visitante FROM consultarbatallas WHERE Usuario LIKE ('" + username + "')", "visitante");
-		String[] fecha = c.EjecutarSentencia("SELECT fecha FROM consultarbatallas WHERE Usuario LIKE ('" + username + "')", "fecha");
+		String[] local = c.EjecutarSentencia("SELECT local FROM consultarbatallas WHERE Usuario LIKE ('" + username + "') ORDER BY consultarbatallas.Fecha ASC", "local");
+		String[] visitante = c.EjecutarSentencia("SELECT visitante FROM consultarbatallas WHERE Usuario LIKE ('" + username + "') ORDER BY consultarbatallas.Fecha ASC", "visitante");
+		String[] fecha = c.EjecutarSentencia("SELECT fecha FROM consultarbatallas WHERE Usuario LIKE ('" + username + "') ORDER BY consultarbatallas.Fecha ASC", "fecha");
 		modelo.addColumn("Local");
 		modelo.addColumn("Visitante");
 		modelo.addColumn("Fecha");
@@ -96,7 +105,7 @@ public class InterfazVisualizar extends JFrame {
 			
 		}
 		JScrollPane scroll = new JScrollPane(tabla);
-		scroll.setBounds(21, 44, 378, 261);
+		scroll.setBounds(21, 44, 547, 261);
 		panel.add(scroll);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 	}
